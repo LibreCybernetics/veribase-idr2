@@ -1,0 +1,18 @@
+package veribase
+
+sourcedir = "src"
+
+opts = "--no-prelude"
+
+modules = Builtin
+        , Verilude
+        , Algebra.Group.Group
+        , Algebra.Group.Magma
+        , Algebra.Group.Monoid
+        , Algebra.Group.Quasigroup
+        , Algebra.Group.Semigroup
+        , Data.Bool
+        , Data.Either
+        , Relation.Eq
+        , Relation.Order
+        , Relation.Preorder

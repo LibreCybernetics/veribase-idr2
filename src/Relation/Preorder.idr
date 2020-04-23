@@ -1,0 +1,48 @@
+module Relation.Preorder
+
+import Builtin
+import Data.Bool
+import Data.Either
+
+%default total
+
+infix 5 ≲, ≴
+
+public export
+interface Preorder a where
+  (≲) : a → a → Bool
+  (≴) : a → a → Bool
+  proofOfSoundness1 : (x, y: a) → IsTrue (x ≲ y) → IsFalse (x ≴ y)
+  proofOfSoundness2 : (x, y: a) → IsFalse (x ≴ y) → IsTrue (x ≲ y)
+  proofOfReflexivity  : (x : a) → IsTrue (x ≲ x)
+  proofOfTransitivity : (x, y, z: a) → IsTrue (x ≲ y) → IsTrue (y ≲ z) → IsTrue (x ≲ z)
+
+public export
+interface Preorder a ⇒ TotalPreorder a where
+  proofOfTotality : (x, y: a) → Either (IsTrue (x ≲ y)) (IsTrue (y ≲ x))
+
+public export
+Preorder Bool where
+  True ≲ False = False
+  True ≲ True  = True
+  _    ≲ _     = True
+  True ≴ False = True
+  True ≴ True  = False
+  _    ≴ _     = False
+  proofOfReflexivity False = ItIsTrue
+  proofOfReflexivity True  = ItIsTrue
+  proofOfTransitivity False False False ItIsTrue ItIsTrue = ItIsTrue
+  proofOfTransitivity False False True  ItIsTrue ItIsTrue = ItIsTrue
+  proofOfTransitivity False True  False ItIsTrue ItIsTrue impossible
+  proofOfTransitivity False True  True  ItIsTrue ItIsTrue = ItIsTrue
+  proofOfTransitivity True  False False ItIsTrue ItIsTrue impossible
+  proofOfTransitivity True  False True  ItIsTrue ItIsTrue impossible
+  proofOfTransitivity True  True  False ItIsTrue ItIsTrue impossible
+  proofOfTransitivity True  True  True  ItIsTrue ItIsTrue = ItIsTrue
+
+public export
+TotalPreorder Bool where
+  proofOfTotality False False = Left ItIsTrue
+  proofOfTotality False True  = Left ItIsTrue
+  proofOfTotality True  False = Right ItIsTrue
+  proofOfTotality True  True  = Right ItIsTrue
