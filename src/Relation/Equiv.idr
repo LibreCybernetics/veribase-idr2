@@ -1,4 +1,4 @@
-module Relation.Eq
+module Relation.Equiv
 
 import Builtin
 import Data.Bool
@@ -7,12 +7,14 @@ import Data.Bool
 
 infix 6 ≡, ≢
 
+-- Value Level
+
 public export
-interface Eq a where
+interface Equiv a where
   (≡) : a → a → Bool
   (≢) : a → a → Bool
   -- Syntactical Equality (=) is taken as a stronger equality
-  -- than Arbitrary (≡) but not the other way around!
+  -- than Arbitrary Equivalence (≡) but not the other way around!
   proofOfEquality : (x, y: a) → x = y → IsTrue (x ≡ y)
   proofOfSoundness1 : (x, y: a) → IsTrue (x ≡ y) → IsFalse (x ≢ y)
   proofOfSoundness2 : (x, y: a) → IsFalse (x ≢ y) → IsTrue (x ≡ y)
@@ -21,8 +23,17 @@ interface Eq a where
   proofOfTransitivity : (x, y, z: a) → IsTrue (x ≡ y)
                       → IsTrue (y ≡ z) → IsTrue (x ≡ z)
 
+-- Type Level
 public export
-Eq Bool where
+data EQ : Equiv a ⇒ a → a → Type where
+  IsEQ : Equiv a ⇒ (x: a) → (y: a) → {auto ok: IsTrue (x ≡ y)} → EQ x y
+
+public export
+data NEQ : Equiv a ⇒ a → a → Type where
+  IsNEQ : Equiv a ⇒ (x: a) → (y: a ) → {auto ok: IsTrue (x ≢ y)} → NEQ x y
+
+public export
+Equiv Bool where
   False ≡ False = True
   True  ≡ True  = True
   _     ≡ _     = False

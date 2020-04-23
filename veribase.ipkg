@@ -15,6 +15,6 @@ modules = Builtin
         , Algebra.Lattice.MeetSemilattice
         , Data.Bool
         , Data.Either
-        , Relation.Eq
+        , Relation.Equiv
         , Relation.Order
         , Relation.Preorder
