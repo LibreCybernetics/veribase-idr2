@@ -30,20 +30,24 @@ not True  = False
 
 -- Disjunction Related Instances
 
+public export
 [BoolDisjMagma] Magma Bool where
   False ⋄ False = False
   _     ⋄ _     = True
 
+public export
 [BoolDisjCommutativeMagma] CommutativeMagma Bool using BoolDisjMagma where
   proofOfCommutativity False False = Refl
   proofOfCommutativity False True  = Refl
   proofOfCommutativity True  False = Refl
   proofOfCommutativity True  True  = Refl
 
+public export
 [BoolDisjSemigroup] Semigroup Bool using BoolDisjMagma where
   proofOfAssociativity False y z = Refl
   proofOfAssociativity True  y z = Refl
 
+public export
 [BoolDisjMonoid] Monoid Bool using BoolDisjSemigroup where
   e = False
   proofOfLeftIdentity  False = Refl
@@ -53,20 +57,24 @@ not True  = False
 
 -- Conjunction Related Instances
 
+public export
 [BoolConjMagma] Magma Bool where
   True ⋄ True = True
   _    ⋄ _    = False
 
+public export
 [BoolConjCommutativeMagma] CommutativeMagma Bool using BoolConjMagma where
   proofOfCommutativity False False = Refl
   proofOfCommutativity True  True  = Refl
   proofOfCommutativity True  False = Refl
   proofOfCommutativity True  True  = Refl
 
+public export
 [BoolConjSemigroup] Semigroup Bool using BoolConjMagma where
   proofOfAssociativity False y z = Refl
   proofOfAssociativity True  y z = Refl
 
+public export
 [BoolConjMonoid] Monoid Bool using BoolConjSemigroup where
   e = True
   proofOfLeftIdentity  True  = Refl

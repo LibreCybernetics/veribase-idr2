@@ -11,6 +11,8 @@ modules = Builtin
         , Algebra.Group.Monoid
         , Algebra.Group.Quasigroup
         , Algebra.Group.Semigroup
+        , Algebra.Lattice.JoinSemilattice
+        , Algebra.Lattice.MeetSemilattice
         , Data.Bool
         , Data.Either
         , Relation.Eq
