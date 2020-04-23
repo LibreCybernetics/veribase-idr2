@@ -51,6 +51,10 @@ public export
 the : (0 t : Type) -> (1 v : t) -> t
 the _ v = v
 
+public export
+flip : (f : a -> b -> c) -> b -> a -> c
+flip f x y = f y x
+
 -- Equality
 
 public export
