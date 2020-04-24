@@ -14,10 +14,10 @@ infix 5 ≤, ≥, <, >, ≮, ≯, ≰, ≱
 -- Value Level
 --
 
--- Normal Order
-
+||| An order might not be total (Both x ≲ y and x ≳ y might be false) and
+||| an order antisymetry only implies Equivalence (If you need equality use StrictOrder)
 public export
-interface (Equiv a, Preorder a) ⇒ PartialOrder a where
+interface (Equiv a, Preorder a) ⇒ Order a where
   (<) : a → a → Bool
   (≮) : a → a → Bool
   proofOfAntisymetry : (x, y: a) → IsTrue (x ≲ y) → IsTrue (y ≲ x) → x `EQ` y
@@ -26,68 +26,75 @@ interface (Equiv a, Preorder a) ⇒ PartialOrder a where
   proofOfSoundness3 : (x, y: a) → IsTrue (x < y) → IsFalse (x ≮ y)
   proofOfSoundness4 : (x, y: a) → IsTrue (x ≮ y) → IsFalse (x < y)
 
+-- Constrainted Aliases for Preorders
+
 public export
-(≤) : PartialOrder a ⇒ a → a → Bool
+(≤) : Order a ⇒ a → a → Bool
 (≤) = (≲)
 
 public export
-(≰) : PartialOrder a ⇒ a → a → Bool
+(≰) : Order a ⇒ a → a → Bool
 (≰) = (≴)
 
 public export
-(≥) : PartialOrder a ⇒ a → a → Bool
+(≥) : Order a ⇒ a → a → Bool
 (≥) = flip (≲)
 
 public export
-(≱) : PartialOrder a ⇒ a → a → Bool
+(≱) : Order a ⇒ a → a → Bool
 (≱) = flip (≴)
 
 public export
-(>) : PartialOrder a ⇒ a → a → Bool
+(>) : Order a ⇒ a → a → Bool
 (>) = flip (<)
 
 public export
-(≯) : PartialOrder a ⇒ a → a → Bool
+(≯) : Order a ⇒ a → a → Bool
 (≯) = flip (≮)
 
 -- Stronger Orders
 
+||| A StrictOrder might not be total (Both x ≲ y and x ≳ y might be false)
 public export
-interface PartialOrder a => StrictPartialOrder a where
+interface Order a => StrictOrder a where
   proofOfStrictAntisymetry : (x, y: a) → IsTrue (x ≲ y) → IsTrue (y ≲ x) → x = y
 
 public export
-interface (TotalPreorder a, PartialOrder a) ⇒ TotalOrder a where
+interface (TotalPreorder a, Order a) ⇒ TotalOrder a where
 
 public export
-interface (StrictPartialOrder a, TotalOrder a) ⇒ Order a where
+interface (StrictOrder a, TotalOrder a) ⇒ StrictTotalOrder a where
+
+-- TODO: Uncomment when Idris!306 (https://github.com/edwinb/Idris2/issues/306) gets resolved
+-- (TotalPreorder a, PartialOrder a) ⇒ TotalOrder a where
+-- (StrictPartialOrder a, TotalOrder a) ⇒ StrictTotalOrder a where
 
 --
 -- Type Level
 --
 
 public export
-data LTE : PartialOrder a ⇒ a → a → Type where
-  IsLTE : PartialOrder a ⇒ (x, y: a) → {auto ok: IsTrue (x ≤ y)} → LTE x y
+data LTE : Order a ⇒ a → a → Type where
+  IsLTE : Order a ⇒ (x, y: a) → {auto ok: IsTrue (x ≤ y)} → LTE x y
 
 public export
-data GTE : PartialOrder a ⇒ a → a → Type where
-  IsGTE : PartialOrder a ⇒ (x, y: a) → {auto ok: IsTrue (x ≥ y)} → GTE x y
+data GTE : Order a ⇒ a → a → Type where
+  IsGTE : Order a ⇒ (x, y: a) → {auto ok: IsTrue (x ≥ y)} → GTE x y
 
 public export
-data LT : PartialOrder a ⇒ a → a → Type where
-  IsLT : PartialOrder a ⇒ (x, y: a) → {auto ok: IsTrue (x < y)} → LT x y
+data LT : Order a ⇒ a → a → Type where
+  IsLT : Order a ⇒ (x, y: a) → {auto ok: IsTrue (x < y)} → LT x y
 
 public export
-data GT : PartialOrder a ⇒ a → a → Type where
-  IsGT : PartialOrder a ⇒ (x, y: a) → {auto ok: IsTrue (x > y)} → GT x y
+data GT : Order a ⇒ a → a → Type where
+  IsGT : Order a ⇒ (x, y: a) → {auto ok: IsTrue (x > y)} → GT x y
 
 --
 -- Bool Implementation
 --
 
 public export
-PartialOrder Bool where
+Order Bool where
   False < True = True
   _     < _    = False
 
@@ -120,7 +127,7 @@ PartialOrder Bool where
   proofOfSoundness4 True  True  ItIsTrue = ItIsFalse
 
 public export
-StrictPartialOrder Bool where
+StrictOrder Bool where
   proofOfStrictAntisymetry False False ItIsTrue ItIsTrue = Refl
   proofOfStrictAntisymetry False True  ItIsTrue ItIsTrue impossible
   proofOfStrictAntisymetry True  False ItIsTrue ItIsTrue impossible

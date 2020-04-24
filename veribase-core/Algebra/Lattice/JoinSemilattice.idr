@@ -10,7 +10,7 @@ import Relation.Order
 infix 5 ∨
 
 public export
-interface (PartialOrder a) ⇒ JoinSemilattice a where
+interface (Order a) ⇒ JoinSemilattice a where
   (∨) : a → a → a
   proofOfCommutativity : (x, y: a) → x ∨ y = y ∨ x
   proofOfUpperBounding : (x, y: a) → IsTrue (x ≤ (x ∨ y))

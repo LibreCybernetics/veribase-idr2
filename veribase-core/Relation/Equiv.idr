@@ -1,36 +1,44 @@
 module Relation.Equiv
 
 import Builtin
+
 import Data.Bool
 
 %default total
 
 infix 6 ≡, ≢
 
+--
 -- Value Level
+--
 
+||| Equiv represents equivalence relations, not equality
+||| An `a` might have several equivalence relations
 public export
 interface Equiv a where
   (≡) : a → a → Bool
   (≢) : a → a → Bool
-  -- Syntactical Equality (=) is taken as a stronger equality
-  -- than Arbitrary Equivalence (≡) but not the other way around!
-  proofOfEquality : (x, y: a) → x = y → IsTrue (x ≡ y)
   proofOfSoundness1 : (x, y: a) → IsTrue (x ≡ y) → IsFalse (x ≢ y)
   proofOfSoundness2 : (x, y: a) → IsFalse (x ≢ y) → IsTrue (x ≡ y)
-  -- The above gives reflexivity
+  proofOfReflexivity : (x: a) → IsTrue (x ≡ x)
   proofOfSymetry : (x, y: a) → IsTrue (x ≡ y) → IsTrue (y ≡ x)
-  proofOfTransitivity : (x, y, z: a) → IsTrue (x ≡ y)
-                      → IsTrue (y ≡ z) → IsTrue (x ≡ z)
+  proofOfTransitivity : (x, y, z: a) → IsTrue (x ≡ y) → IsTrue (y ≡ z) → IsTrue (x ≡ z)
 
+--
 -- Type Level
+--
+
 public export
 data EQ : Equiv a ⇒ a → a → Type where
-  IsEQ : Equiv a ⇒ (x: a) → (y: a) → {auto ok: IsTrue (x ≡ y)} → EQ x y
+  IsEQ : Equiv a ⇒ (x, y: a) → {auto ok: IsTrue (x ≡ y)} → EQ x y
 
 public export
 data NEQ : Equiv a ⇒ a → a → Type where
-  IsNEQ : Equiv a ⇒ (x: a) → (y: a ) → {auto ok: IsTrue (x ≢ y)} → NEQ x y
+  IsNEQ : Equiv a ⇒ (x, y: a) → {auto ok: IsTrue (x ≢ y)} → NEQ x y
+
+--
+-- Bool Instance
+--
 
 public export
 Equiv Bool where
@@ -40,10 +48,6 @@ Equiv Bool where
   False ≢ False = False
   True  ≢ True  = False
   _     ≢ _     = True
-  proofOfEquality False False Refl = ItIsTrue
-  proofOfEquality False True  Refl impossible
-  proofOfEquality True  False Refl impossible
-  proofOfEquality True  True  Refl = ItIsTrue
   proofOfSoundness1 False False ItIsTrue = ItIsFalse
   proofOfSoundness1 False True  ItIsTrue impossible
   proofOfSoundness1 True  False ItIsTrue impossible
@@ -52,6 +56,8 @@ Equiv Bool where
   proofOfSoundness2 False True  ItIsFalse impossible
   proofOfSoundness2 True  False ItIsFalse impossible
   proofOfSoundness2 True  True  ItIsFalse = ItIsTrue
+  proofOfReflexivity False = ItIsTrue
+  proofOfReflexivity True  = ItIsTrue
   proofOfSymetry False False ItIsTrue = ItIsTrue
   proofOfSymetry False True  ItIsTrue impossible
   proofOfSymetry True  False ItIsTrue impossible
