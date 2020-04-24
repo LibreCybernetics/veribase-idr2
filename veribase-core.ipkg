@@ -5,6 +5,7 @@ sourcedir = "veribase-core"
 opts = "--no-prelude"
 
 modules = Builtin
+        , Algebra.BooleanAlgebra
         , Algebra.Group.Group
         , Algebra.Group.Magma
         , Algebra.Group.Monoid
