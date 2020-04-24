@@ -17,6 +17,11 @@ interface (PartialOrder a) ⇒ MeetSemilattice a where
   proofOfGreatestLowerBounding: (x, y, z: a) → IsTrue (x ≤ y) → IsTrue (x ≤ z) → IsTrue (x ≤ (y ∧ z))
 
 public export
+interface MeetSemilattice a ⇒ BoundedMeetSemilattice a where
+  upperBound : a
+  proofOfUpperBound : (x: a) → IsTrue (x ≤ upperBound)
+
+public export
 MeetSemilattice Bool where
   (∧) = (⋄) @{BoolConjMagma}
   proofOfCommutativity = proofOfCommutativity @{BoolConjCommutativeMagma}
@@ -32,3 +37,9 @@ MeetSemilattice Bool where
   proofOfGreatestLowerBounding True  False True  ItIsTrue ItIsTrue impossible
   proofOfGreatestLowerBounding True  True  False ItIsTrue ItIsTrue impossible
   proofOfGreatestLowerBounding True  True  True  ItIsTrue ItIsTrue = ItIsTrue
+
+public export
+BoundedMeetSemilattice Bool where
+  upperBound = True
+  proofOfUpperBound False = ItIsTrue
+  proofOfUpperBound True  = ItIsTrue

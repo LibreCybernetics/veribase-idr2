@@ -12,6 +12,7 @@ modules = Builtin
         , Algebra.Group.Quasigroup
         , Algebra.Group.Semigroup
         , Algebra.Lattice.JoinSemilattice
+        , Algebra.Lattice.Lattice
         , Algebra.Lattice.MeetSemilattice
         , Data.Bool
         , Data.Either
