@@ -2,6 +2,7 @@ module Relation.Preorder
 
 import Builtin
 
+import Algebra.Group.Magma
 import Data.Bool
 import Data.Either
 
@@ -45,12 +46,9 @@ interface Preorder a ⇒ TotalPreorder a where
 
 public export
 Preorder Bool where
-  True ≲ False = False
-  True ≲ True  = True
-  _    ≲ _     = True
+  (≲) = (⋄) @{BoolImplMagma}
 
   True ≴ False = True
-  True ≴ True  = False
   _    ≴ _     = False
 
   proofOfSoundness1 False False ItIsTrue = ItIsFalse
@@ -81,7 +79,3 @@ TotalPreorder Bool where
   proofOfTotality False True  = Left  ItIsTrue
   proofOfTotality True  False = Right ItIsTrue
   proofOfTotality True  True  = Right ItIsTrue
-
---
--- TODO: Either Instances?
---

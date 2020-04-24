@@ -15,4 +15,5 @@ interface (Magma a, Semigroup a, Monoid a) ⇒ Group a where
 public export
 interface (CommutativeMagma a, Group a) ⇒ CommutativeGroup a where
 
+-- TODO: Uncomment when Idris!306 (https://github.com/edwinb/Idris2/issues/306) gets resolved
 -- (CommutativeMagma a, Group a) ⇒ CommutativeGroup a where

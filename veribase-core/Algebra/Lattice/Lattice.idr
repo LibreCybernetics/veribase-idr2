@@ -2,8 +2,8 @@ module Algebra.Lattice.Lattice
 
 import Builtin
 
-import Algebra.Lattice.JoinSemilattice
-import Algebra.Lattice.MeetSemilattice
+import public Algebra.Lattice.JoinSemilattice
+import public Algebra.Lattice.MeetSemilattice
 import Data.Bool
 
 %default total
@@ -14,15 +14,19 @@ interface (JoinSemilattice a, MeetSemilattice a) ⇒ Lattice a where
   proofOfMeetAbsorbsJoin : (x, y: a) → x ∧ (x ∨ y) = x
 
 public export
-interface (BoundedJoinSemilattice a, BoundedMeetSemilattice a, Lattice a) ⇒ BoundedLattice a where
-
-public export
 interface Lattice a ⇒ DistributiveLattice a where
   proofOfJoinDistributesMeet : (x, y, z: a) → x ∨ (y ∧ z) = (x ∨ y) ∧ (x ∨ z)
   proofOfMeetDistributesJoin : (x, y, z: a) → x ∧ (y ∨ z) = (x ∧ y) ∨ (x ∧ z)
 
 public export
+interface (BoundedJoinSemilattice a, BoundedMeetSemilattice a, Lattice a) ⇒ BoundedLattice a where
+
+public export
 interface (BoundedLattice a, DistributiveLattice a) ⇒ BoundedDistributiveLattice a where
+
+-- TODO: Uncomment when Idris!306 (https://github.com/edwinb/Idris2/issues/306) gets resolved
+-- (BoundedJoinSemilattice a, BoundedMeetSemilattice a, Lattice a) ⇒ BoundedLattice a where
+-- (Semilattice a, BoundedMeetSemilattice a, Lattice a) ⇒ BoundedLattice a where
 
 public export
 Lattice Bool where
@@ -35,9 +39,6 @@ Lattice Bool where
   proofOfMeetAbsorbsJoin False True  = Refl
   proofOfMeetAbsorbsJoin True  False = Refl
   proofOfMeetAbsorbsJoin True  True  = Refl
-
-public export
-BoundedLattice Bool where
 
 public export
 DistributiveLattice Bool where
@@ -58,6 +59,9 @@ DistributiveLattice Bool where
   proofOfMeetDistributesJoin True  False True  = Refl
   proofOfMeetDistributesJoin True  True  False = Refl
   proofOfMeetDistributesJoin True  True  True  = Refl
+
+public export
+BoundedLattice Bool where
 
 public export
 BoundedDistributiveLattice Bool where

@@ -22,12 +22,6 @@ public export
 data IsFalse : Bool → Type where
   ItIsFalse : IsFalse False
 
--- TODO: Move to complemented lattice interface
-public export
-not : Bool → Bool
-not False = True
-not True  = False
-
 -- Disjunction Related Instances
 
 public export
@@ -84,17 +78,61 @@ public export
 
 -- Material Implication Related Instances
 
+public export
 [BoolImplMagma] Magma Bool where
   True ⋄ False = False
   _    ⋄ _     = True
 
--- XOR Related Instances
 
+public export
+[BoolEquivMagma] Magma Bool where
+  False ⋄ False = True
+  True  ⋄ True  = True
+  _     ⋄ _     = False
+
+public export
+[BoolEquivCommutativeMagma] CommutativeMagma Bool using BoolEquivMagma where
+  proofOfCommutativity False False = Refl
+  proofOfCommutativity False True  = Refl
+  proofOfCommutativity True  False = Refl
+  proofOfCommutativity True  True  = Refl
+
+public export
+[BoolEquivSemigroup] Semigroup Bool using BoolEquivMagma where
+   proofOfAssociativity False False False = Refl
+   proofOfAssociativity False False True  = Refl
+   proofOfAssociativity False True  False = Refl
+   proofOfAssociativity False True  True  = Refl
+   proofOfAssociativity True  False False = Refl
+   proofOfAssociativity True  False True  = Refl
+   proofOfAssociativity True  True  False = Refl
+   proofOfAssociativity True  True  True  = Refl
+
+public export
 [BoolXorMagma] Magma Bool where
   False ⋄ False = False
   True  ⋄ True  = False
   _     ⋄ _     = True
 
+public export
+[BoolXorCommutativeMagma] CommutativeMagma Bool using BoolXorMagma where
+  proofOfCommutativity False False = Refl
+  proofOfCommutativity False True  = Refl
+  proofOfCommutativity True  False = Refl
+  proofOfCommutativity True  True  = Refl
+
+public export
+[BoolXorSemigroup] Semigroup Bool using BoolXorMagma where
+  proofOfAssociativity False False False = Refl
+  proofOfAssociativity False False True  = Refl
+  proofOfAssociativity False True  False = Refl
+  proofOfAssociativity False True  True  = Refl
+  proofOfAssociativity True  False False = Refl
+  proofOfAssociativity True  False True  = Refl
+  proofOfAssociativity True  True  False = Refl
+  proofOfAssociativity True  True  True  = Refl
+
+public export
 [BoolXorQuasigroup] Quasigroup Bool using BoolXorMagma where
   proofOfLeftCancellative False False False Refl = Refl
   proofOfLeftCancellative False False True  Refl impossible

@@ -2,7 +2,7 @@ module Algebra.BooleanAlgebra
 
 import Builtin
 
-import Algebra.Lattice.Lattice
+import public Algebra.Lattice.Lattice
 import Data.Bool
 
 %default total
