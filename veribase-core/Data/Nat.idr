@@ -12,6 +12,9 @@ import Relation.Equiv
 public export
 data Nat = Z | S Nat
 
+Uninhabited (x = S x) where
+  uninhabited Refl impossible
+
 -- Equiv
 
 Equiv Nat where
@@ -64,6 +67,20 @@ public export
   proofOfLeftIdentity    Z  = Refl
   proofOfLeftIdentity (S x) = rewrite proofOfLeftIdentity x in Refl
   proofOfRightIdentity x = Refl
+
+public export
+[NatSumQuasigroup] Quasigroup Nat using NatSumMagma NatSumMonoid where
+  proofOfLeftCancellative x    Z     Z  Refl = Refl
+  proofOfLeftCancellative Z    Z  (S z) Refl impossible
+  proofOfLeftCancellative Z (S y)    Z  Refl impossible
+  -- TODO: Same issue as Semigroup a ⇒ Monoid (Maybe a)
+  -- proofOfLeftCancellative Z (S y) (S z) prf =
+  --  rewrite proofOfLeftCancellative Z y z prf in ?hole
+  -- TODO: Requires some other order proofs
+  --proofOfLeftCancellative (S x) Z (S z) Refl = absurd
+
+  proofOfRightCancellative Z Z Z Refl = Refl
+  -- TODO: Remainder
 
 public export
 [NatSumCommutativeSemigroup] CommutativeSemigroup Nat using NatSumCommutativeMagma NatSumSemigroup where
