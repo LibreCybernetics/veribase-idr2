@@ -18,7 +18,9 @@ infix 6 ≡, ≢
 public export
 interface Equiv a where
   (≡) : a → a → Bool
+  x ≡ y = not (x ≢ y)
   (≢) : a → a → Bool
+  x ≢ y = not (x ≡ y)
   proofOfSoundness1 : (x, y: a) → IsTrue (x ≡ y) → IsFalse (x ≢ y)
   proofOfSoundness2 : (x, y: a) → IsFalse (x ≢ y) → IsTrue (x ≡ y)
   proofOfReflexivity : (x: a) → IsTrue (x ≡ x)

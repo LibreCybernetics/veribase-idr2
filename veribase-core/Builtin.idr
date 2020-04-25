@@ -33,6 +33,8 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -}
 
+infixr 9 .
+
 -- Touples
 
 public export
@@ -54,6 +56,10 @@ the _ v = v
 public export
 flip : (f : a -> b -> c) -> b -> a -> c
 flip f x y = f y x
+
+public export %inline
+(.) : (b -> c) -> (a -> b) -> a -> c
+(.) f g = \x => f (g x)
 
 -- Equality
 

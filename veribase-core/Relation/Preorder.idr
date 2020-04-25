@@ -19,7 +19,9 @@ infix 5 ≲, ≴, ≳, ≵
 public export
 interface Preorder a where
   (≲) : a → a → Bool
+  x ≲ y = not (x ≴ y)
   (≴) : a → a → Bool
+  x ≴ y = not (x ≲ y)
   proofOfSoundness1 : (x, y: a) → IsTrue (x ≲ y) → IsFalse (x ≴ y)
   proofOfSoundness2 : (x, y: a) → IsTrue (x ≴ y) → IsFalse (x ≲ y)
   proofOfReflexivity : (x: a) → IsTrue (x ≲ x)

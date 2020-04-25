@@ -22,6 +22,11 @@ public export
 data IsFalse : Bool → Type where
   ItIsFalse : IsFalse False
 
+export
+not : Bool -> Bool
+not False = True
+not True  = False
+
 -- Disjunction Related Instances
 
 public export
