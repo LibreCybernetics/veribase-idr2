@@ -8,7 +8,7 @@ import public Relation.Preorder
 
 %default total
 
-infix 5 ≤, ≥, <, >, ≮, ≯, ≰, ≱
+infix 5 <, >, ≮, ≯
 
 --
 -- Value Level
@@ -20,29 +20,13 @@ public export
 interface (Equiv a, Preorder a) ⇒ Order a where
   (<) : a → a → Bool
   (≮) : a → a → Bool
-  proofOfAntisymetry : (x, y: a) → x ≲ y = True → y ≲ x = True → x `EQ` y
-  proofOfSoundness1 : (x, y: a) → x < y = True → x ≲ y = True
+  proofOfAntisymetry : (x, y: a) → x ≤ y = True → x ≤ y = True → x `EQ` y
+  proofOfSoundness1 : (x, y: a) → x < y = True → x ≤ y = True
   proofOfSoundness2 : (x, y: a) → x < y = True → x `NEQ` y
   proofOfSoundness3 : (x, y: a) → x < y = True → x ≮ y = False
   proofOfSoundness4 : (x, y: a) → x ≮ y = True → x < y = False
 
--- Constrainted Aliases for Preorders
-
-public export
-(≤) : Order a ⇒ a → a → Bool
-(≤) = (≲)
-
-public export
-(≰) : Order a ⇒ a → a → Bool
-(≰) = (≴)
-
-public export
-(≥) : Order a ⇒ a → a → Bool
-(≥) = flip (≲)
-
-public export
-(≱) : Order a ⇒ a → a → Bool
-(≱) = flip (≴)
+-- Flipped versions
 
 public export
 (>) : Order a ⇒ a → a → Bool
@@ -57,7 +41,7 @@ public export
 ||| A StrictOrder might not be total (Both x ≲ y and x ≳ y might be false)
 public export
 interface Order a => StrictOrder a where
-  proofOfStrictAntisymetry : (x, y: a) → x ≲ y = True → y ≲ x = True → x = y
+  proofOfStrictAntisymetry : (x, y: a) → x ≤ y = True → y ≤ x = True → x = y
 
 public export
 interface (TotalPreorder a, Order a) ⇒ TotalOrder a where
@@ -102,8 +86,8 @@ Order Bool where
   _     ≮ _    = True
 
   proofOfAntisymetry False False Refl Refl = IsEQ False False
-  proofOfAntisymetry False True  Refl Refl impossible
-  proofOfAntisymetry True  False Refl Refl impossible
+  -- proofOfAntisymetry False True  Refl Refl impossible
+  -- proofOfAntisymetry True  False Refl Refl impossible
   proofOfAntisymetry True  True  Refl Refl = IsEQ True  True
 
   proofOfSoundness1 False False Refl impossible

@@ -11,9 +11,13 @@ import Relation.Order
 
 
 Preorder Nat where
-  Z     ≲    _  = True
-  (S x) ≲    Z  = False
-  (S x) ≲ (S y) = x ≲ y
+  Z     ≤    _  = True
+  (S x) ≤    Z  = False
+  (S x) ≤ (S y) = x ≤ y
 
   proofOfReflexivity    Z  = Refl
   proofOfReflexivity (S x) = proofOfReflexivity x
+
+  proofOfTransitivity Z    Z     z  Refl Refl = Refl
+  proofOfTransitivity Z (S y)    Z  Refl Refl impossible
+  proofOfTransitivity Z (S y) (S z) Refl prf = Refl
