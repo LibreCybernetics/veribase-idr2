@@ -20,7 +20,7 @@ public export
 interface (Equiv a, Preorder a) ⇒ Order a where
   (<) : a → a → Bool
   (≮) : a → a → Bool
-  proofOfAntisymetry : (x, y: a) → x ≤ y = True → x ≤ y = True → x `EQ` y
+  proofOfAntisymetry : (x, y: a) → x ≤ y = True → y ≤ x = True → x `EQ` y
   proofOfSoundness1 : (x, y: a) → x < y = True → x ≤ y = True
   proofOfSoundness2 : (x, y: a) → x < y = True → x `NEQ` y
   proofOfSoundness3 : (x, y: a) → x < y = True → x ≮ y = False
@@ -86,8 +86,8 @@ Order Bool where
   _     ≮ _    = True
 
   proofOfAntisymetry False False Refl Refl = IsEQ False False
-  -- proofOfAntisymetry False True  Refl Refl impossible
-  -- proofOfAntisymetry True  False Refl Refl impossible
+  proofOfAntisymetry False True  Refl Refl impossible
+  proofOfAntisymetry True  False Refl Refl impossible
   proofOfAntisymetry True  True  Refl Refl = IsEQ True  True
 
   proofOfSoundness1 False False Refl impossible
