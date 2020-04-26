@@ -15,9 +15,14 @@ modules = Builtin
         , Algebra.Lattice.JoinSemilattice
         , Algebra.Lattice.Lattice
         , Algebra.Lattice.MeetSemilattice
+        , Algebra.Ring.Semiring
         , Data.Bool
         , Data.Either
         , Data.Maybe
+        , Data.Nat.Basic
+        , Data.Nat.Equiv
+        , Data.Nat.Order
+        , Data.Nat.Semiring
         , Data.Nat
         , Relation.Equiv
         , Relation.Order

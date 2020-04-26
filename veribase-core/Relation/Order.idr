@@ -4,7 +4,7 @@ import Builtin
 
 import Data.Bool
 import Relation.Equiv
-import Relation.Preorder
+import public Relation.Preorder
 
 %default total
 
@@ -20,11 +20,11 @@ public export
 interface (Equiv a, Preorder a) ⇒ Order a where
   (<) : a → a → Bool
   (≮) : a → a → Bool
-  proofOfAntisymetry : (x, y: a) → IsTrue (x ≲ y) → IsTrue (y ≲ x) → x `EQ` y
-  proofOfSoundness1 : (x, y: a) → IsTrue (x < y) → IsTrue (x ≲ y)
-  proofOfSoundness2 : (x, y: a) → IsTrue (x < y) → x `NEQ` y
-  proofOfSoundness3 : (x, y: a) → IsTrue (x < y) → IsFalse (x ≮ y)
-  proofOfSoundness4 : (x, y: a) → IsTrue (x ≮ y) → IsFalse (x < y)
+  proofOfAntisymetry : (x, y: a) → x ≲ y = True → y ≲ x = True → x `EQ` y
+  proofOfSoundness1 : (x, y: a) → x < y = True → x ≲ y = True
+  proofOfSoundness2 : (x, y: a) → x < y = True → x `NEQ` y
+  proofOfSoundness3 : (x, y: a) → x < y = True → x ≮ y = False
+  proofOfSoundness4 : (x, y: a) → x ≮ y = True → x < y = False
 
 -- Constrainted Aliases for Preorders
 
@@ -57,7 +57,7 @@ public export
 ||| A StrictOrder might not be total (Both x ≲ y and x ≳ y might be false)
 public export
 interface Order a => StrictOrder a where
-  proofOfStrictAntisymetry : (x, y: a) → IsTrue (x ≲ y) → IsTrue (y ≲ x) → x = y
+  proofOfStrictAntisymetry : (x, y: a) → x ≲ y = True → y ≲ x = True → x = y
 
 public export
 interface (TotalPreorder a, Order a) ⇒ TotalOrder a where
@@ -75,19 +75,19 @@ interface (StrictOrder a, TotalOrder a) ⇒ StrictTotalOrder a where
 
 public export
 data LTE : Order a ⇒ a → a → Type where
-  IsLTE : Order a ⇒ (x, y: a) → {auto ok: IsTrue (x ≤ y)} → LTE x y
+  IsLTE : Order a ⇒ (x, y: a) → {auto ok: x ≤ y = True} → LTE x y
 
 public export
 data GTE : Order a ⇒ a → a → Type where
-  IsGTE : Order a ⇒ (x, y: a) → {auto ok: IsTrue (x ≥ y)} → GTE x y
+  IsGTE : Order a ⇒ (x, y: a) → {auto ok: x ≥ y = True} → GTE x y
 
 public export
 data LT : Order a ⇒ a → a → Type where
-  IsLT : Order a ⇒ (x, y: a) → {auto ok: IsTrue (x < y)} → LT x y
+  IsLT : Order a ⇒ (x, y: a) → {auto ok: x < y = True} → LT x y
 
 public export
 data GT : Order a ⇒ a → a → Type where
-  IsGT : Order a ⇒ (x, y: a) → {auto ok: IsTrue (x > y)} → GT x y
+  IsGT : Order a ⇒ (x, y: a) → {auto ok: x > y = True} → GT x y
 
 --
 -- Bool Implementation
@@ -101,34 +101,34 @@ Order Bool where
   False ≮ True = False
   _     ≮ _    = True
 
-  proofOfAntisymetry False False ItIsTrue ItIsTrue = IsEQ False False
-  proofOfAntisymetry False True  ItIsTrue ItIsTrue impossible
-  proofOfAntisymetry True  False ItIsTrue ItIsTrue impossible
-  proofOfAntisymetry True  True  ItIsTrue ItIsTrue = IsEQ True  True
+  proofOfAntisymetry False False Refl Refl = IsEQ False False
+  proofOfAntisymetry False True  Refl Refl impossible
+  proofOfAntisymetry True  False Refl Refl impossible
+  proofOfAntisymetry True  True  Refl Refl = IsEQ True  True
 
-  proofOfSoundness1 False False ItIsTrue impossible
-  proofOfSoundness1 False True  ItIsTrue = ItIsTrue
-  proofOfSoundness1 True  False ItIsTrue impossible
-  proofOfSoundness1 True  True  ItIsTrue impossible
+  proofOfSoundness1 False False Refl impossible
+  proofOfSoundness1 False True  Refl = Refl
+  proofOfSoundness1 True  False Refl impossible
+  proofOfSoundness1 True  True  Refl impossible
 
-  proofOfSoundness2 False False ItIsTrue impossible
-  proofOfSoundness2 False True  ItIsTrue = IsNEQ False True
-  proofOfSoundness2 True  False ItIsTrue impossible
-  proofOfSoundness2 True  True  ItIsTrue impossible
+  proofOfSoundness2 False False Refl impossible
+  proofOfSoundness2 False True  Refl = IsNEQ False True
+  proofOfSoundness2 True  False Refl impossible
+  proofOfSoundness2 True  True  Refl impossible
 
-  proofOfSoundness3 False False ItIsTrue impossible
-  proofOfSoundness3 False True  ItIsTrue = ItIsFalse
-  proofOfSoundness3 True  False ItIsTrue impossible
-  proofOfSoundness3 True  True  ItIsTrue impossible
+  proofOfSoundness3 False False Refl impossible
+  proofOfSoundness3 False True  Refl = Refl
+  proofOfSoundness3 True  False Refl impossible
+  proofOfSoundness3 True  True  Refl impossible
 
-  proofOfSoundness4 False False ItIsTrue = ItIsFalse
-  proofOfSoundness4 False True  ItIsTrue impossible
-  proofOfSoundness4 True  False ItIsTrue = ItIsFalse
-  proofOfSoundness4 True  True  ItIsTrue = ItIsFalse
+  proofOfSoundness4 False False Refl = Refl
+  proofOfSoundness4 False True  Refl impossible
+  proofOfSoundness4 True  False Refl = Refl
+  proofOfSoundness4 True  True  Refl = Refl
 
 public export
 StrictOrder Bool where
-  proofOfStrictAntisymetry False False ItIsTrue ItIsTrue = Refl
-  proofOfStrictAntisymetry False True  ItIsTrue ItIsTrue impossible
-  proofOfStrictAntisymetry True  False ItIsTrue ItIsTrue impossible
-  proofOfStrictAntisymetry True  True  ItIsTrue ItIsTrue = Refl
+  proofOfStrictAntisymetry False False Refl Refl = Refl
+  proofOfStrictAntisymetry False True  Refl Refl impossible
+  proofOfStrictAntisymetry True  False Refl Refl impossible
+  proofOfStrictAntisymetry True  True  Refl Refl = Refl

@@ -22,10 +22,27 @@ public export
 data IsFalse : Bool → Type where
   ItIsFalse : IsFalse False
 
-export
+public export
+Uninhabited (False = True) where
+  uninhabited Refl impossible
+
+public export
+Uninhabited (True = False) where
+  uninhabited Refl impossible
+
+-- Don't use this externally, use the negation/complement of BooleanAlgebra
+export %inline
 not : Bool -> Bool
 not False = True
 not True  = False
+
+export
+notFalseIsTrue : not False = True
+notFalseIsTrue = Refl
+
+export
+notTrueIsFalse : not True = False
+notTrueIsFalse = Refl
 
 -- Disjunction Related Instances
 
