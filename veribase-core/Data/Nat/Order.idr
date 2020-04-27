@@ -15,6 +15,12 @@ Preorder Nat where
   (S _) ≤    Z  = False
   (S x) ≤ (S y) = x ≤ y
 
+  proofOfSoundness1    Z     _  Refl = rewrite notTrueIsFalse in Refl
+  proofOfSoundness1 (S x)    Z  Refl impossible
+  proofOfSoundness1 (S x) (S y) prf  = ?preorderSoundness1Hole
+
+  proofOfSoundness2 = ?preorderSoundness2Hole
+
   proofOfReflexivity    Z  = Refl
   proofOfReflexivity (S x) = proofOfReflexivity x
 
@@ -26,13 +32,22 @@ TotalPreorder Nat where
   proofOfTotality    Z   _ = Left Refl
   proofOfTotality (S x)  Z = Right Refl
   proofOfTotality (S x) (S y) with ((S x) ≤ (S y))
-    -- proofOfTotality (S x) (S y) | False = Right Refl
+    -- proofOfTotality (S x) (S y) | False = Right Refl -- TODO: flip proof
     proofOfTotality (S x) (S y) | True  = Left Refl
 
 Order Nat where
   _     <    Z  = False
   Z     < (S _) = True
   (S x) < (S y) = x < y
+
+  proofOfSoundness1    _     Z  Refl impossible
+  proofOfSoundness1    Z  (S y) Refl = Refl
+  proofOfSoundness1 (S x) (S y) prf  = ?orderSoundness1Hole
+
+  proofOfSoundness2    _     Z  Refl impossible
+  -- TODO: issue with not
+  -- proofOfSoundness2    Z  (S y) Refl = IsNEQ Z (S y)
+  -- proofOfSoundness2 (S x) (S y) Refl = ?orderSoundness2Hole
 
   proofOfAntisymetry    Z    Z  Refl  Refl = IsEQ Z Z
   proofOfAntisymetry    Z  (S y) Refl Refl impossible

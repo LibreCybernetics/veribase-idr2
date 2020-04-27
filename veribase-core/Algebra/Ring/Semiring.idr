@@ -12,9 +12,9 @@ interface Semiring a where
   (⋅) : a → a → a
   zero : a
   one  : a
-  proofOfSumAssociative : (x, y, z: a) → x + (y + z) = (x + y) + z
+  proofOfSumAssociativity : (x, y, z: a) → x + (y + z) = (x + y) + z
   proofOfSumLeftIdentity : (x: a) → zero + x = x
   proofOfSumRightIdentity : (x: a) → x + zero = x
-  proofOfProdAssociative : (x, y, z: a) → x ⋅ (y ⋅ z) = (x ⋅ y) ⋅ z
+  proofOfProdAssociativity : (x, y, z: a) → x ⋅ (y ⋅ z) = (x ⋅ y) ⋅ z
   proofOfProdLeftIdentity : (x: a) → one ⋅ x = x
   proofOfProdRightIdentity : (x: a) → x ⋅ one = x

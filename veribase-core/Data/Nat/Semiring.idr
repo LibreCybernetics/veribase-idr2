@@ -2,9 +2,12 @@ module Data.Nat.Semiring
 
 import Builtin
 
-import public Data.Nat.Basic
 import Algebra.Group.Monoid
 import Algebra.Group.Loop
+import Algebra.Ring.Semiring
+import public Data.Nat.Basic
+
+%default total
 
 -- Sum
 
@@ -54,3 +57,28 @@ public export
 
 public export
 [NatSumCommutativeMonoid] CommutativeMonoid Nat using NatSumCommutativeSemigroup NatSumMonoid where
+
+-- Product
+
+public export
+[NatProdMagma] Magma Nat where
+  x ⋄    Z  = Z
+  x ⋄ (S y) = (⋄) @{NatSumMagma} x (x ⋄ y)
+
+public export
+[NatProdCommutativeMagma] CommutativeMagma Nat using NatProdMagma where
+
+public export
+[NatProdSemigroup] Semigroup Nat using NatProdMagma where
+
+public export
+[NatProdMonoid] Monoid Nat using NatProdSemigroup where
+
+-- Semiring
+
+public export
+Semiring Nat where
+  (+) = (⋄) @{NatSumMagma}
+  (⋅) = (⋄) @{NatProdMagma}
+  zero = Z
+  one = S Z
