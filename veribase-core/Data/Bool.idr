@@ -13,7 +13,8 @@ public export
 data Bool = False | True
 
 -- Don't use this externally, use the negation/complement of BooleanAlgebra
-export
+
+export %inline
 not : Bool -> Bool
 not False = True
 not True  = False
