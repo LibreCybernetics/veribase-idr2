@@ -55,6 +55,10 @@ the : (0 t : Type) → (1 v : t) → t
 the _ v = v
 
 public export
+const : (x: t) -> (a -> t)
+const x = \b => x
+
+public export
 ($) : (f: a → b) → a → b
 ($) f x = f x
 

@@ -4,7 +4,8 @@ sourcedir = "veribase-core"
 
 opts = "--no-prelude"
 
-modules = Builtin
+modules = Verilude
+        , Builtin
         , Algebra.BooleanAlgebra
         , Algebra.Group.Group
         , Algebra.Group.Loop
@@ -17,10 +18,12 @@ modules = Builtin
         , Algebra.Lattice.MeetSemilattice
         , Algebra.Ring.Ring
         , Algebra.Ring.Semiring
+        , Algebra.Ring.Util
         , Control.Container
         , Control.ListComprehension
         , Data.Bool
         , Data.Either
+        , Data.Integer
         , Data.LinkedList
         , Data.Maybe
         , Data.Nat.Basic
