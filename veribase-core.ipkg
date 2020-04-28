@@ -15,8 +15,10 @@ modules = Builtin
         , Algebra.Lattice.JoinSemilattice
         , Algebra.Lattice.Lattice
         , Algebra.Lattice.MeetSemilattice
+        , Algebra.Ring.Ring
         , Algebra.Ring.Semiring
         , Control.Container
+        , Control.ListComprehension
         , Data.Bool
         , Data.Either
         , Data.LinkedList
@@ -24,6 +26,7 @@ modules = Builtin
         , Data.Nat.Basic
         , Data.Nat.Equiv
         , Data.Nat.Order
+        , Data.Nat.PrimCast
         , Data.Nat.Semiring
         , Data.Nat
         , Relation.Equiv

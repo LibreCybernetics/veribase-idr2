@@ -10,6 +10,7 @@ import Relation.Order
 
 %default total
 
+public export
 Preorder Nat where
   Z     ≤    _  = True
   (S _) ≤    Z  = False
@@ -35,6 +36,7 @@ TotalPreorder Nat where
     -- proofOfTotality (S x) (S y) | False = Right Refl -- TODO: flip proof
     proofOfTotality (S x) (S y) | True  = Left Refl
 
+public export
 Order Nat where
   _     <    Z  = False
   Z     < (S _) = True

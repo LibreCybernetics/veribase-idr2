@@ -12,6 +12,11 @@ import Algebra.Group.Quasigroup
 public export
 data Bool = False | True
 
+export
+primBoolToBool : Int → Bool
+primBoolToBool 0 = False
+primBoolToBool 1 = True
+
 -- Don't use this externally, use the negation/complement of BooleanAlgebra
 
 export %inline
