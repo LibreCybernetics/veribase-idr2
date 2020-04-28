@@ -33,7 +33,7 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -}
 
-infixr 9 .
+infixr 9 ∘
 
 -- Touples
 
@@ -58,8 +58,8 @@ flip : (f : a -> b -> c) -> b -> a -> c
 flip f x y = f y x
 
 public export %inline
-(.) : (b -> c) -> (a -> b) -> a -> c
-(.) f g = \x => f (g x)
+(∘) : (b -> c) -> (a -> b) -> a -> c
+(∘) f g = \x => f (g x)
 
 -- Equality
 

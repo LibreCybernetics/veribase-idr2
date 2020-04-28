@@ -16,8 +16,10 @@ modules = Builtin
         , Algebra.Lattice.Lattice
         , Algebra.Lattice.MeetSemilattice
         , Algebra.Ring.Semiring
+        , Control.Container
         , Data.Bool
         , Data.Either
+        , Data.LinkedList
         , Data.Maybe
         , Data.Nat.Basic
         , Data.Nat.Equiv
