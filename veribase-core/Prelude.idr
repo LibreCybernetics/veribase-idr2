@@ -1,4 +1,4 @@
-module Verilude
+module Prelude
 
 import public Builtin
 
@@ -14,6 +14,7 @@ import public Data.Bool
 import public Data.Integer
 import public Data.LinkedList
 import public Data.Nat
+import public Data.Nat.PrimCast
 
 import public Relation.Equiv
 import public Relation.Order

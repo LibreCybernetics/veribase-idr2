@@ -1,6 +1,6 @@
 module NaiveSolution
 
-import Verilude
+import Prelude
 
 main : LinkedList Nat
-main = filter (≡ (fromInteger 10)) [(fromInteger 1)..(fromInteger 10)]
+main = filter (≡ 10) [1..10]

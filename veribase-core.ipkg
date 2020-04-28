@@ -4,7 +4,7 @@ sourcedir = "veribase-core"
 
 opts = "--no-prelude"
 
-modules = Verilude
+modules = Prelude
         , Builtin
         , Algebra.BooleanAlgebra
         , Algebra.Group.Group
