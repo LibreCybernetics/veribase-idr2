@@ -20,6 +20,7 @@ modules = Prelude
         , Algebra.Ring.Semiring
         , Algebra.Ring.Util
         , Control.Container
+        , Control.Integral
         , Control.ListComprehension
         , Data.Bool
         , Data.Either
@@ -28,8 +29,8 @@ modules = Prelude
         , Data.Maybe
         , Data.Nat.Basic
         , Data.Nat.Equiv
+        , Data.Nat.Integral
         , Data.Nat.Order
-        , Data.Nat.PrimCast
         , Data.Nat.Semiring
         , Data.Nat
         , Relation.Equiv

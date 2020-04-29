@@ -1,6 +1,9 @@
 module NaiveSolution
 
-import Prelude
+import Verilude
+
+import Control.Integral
+import Data.Nat.Integral
 
 main : LinkedList Nat
-main = filter (≡ 10) [1..10]
+main = filter (`divBy` (the Nat 3)) [(the Nat 1)..1000]

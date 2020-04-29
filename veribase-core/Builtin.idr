@@ -42,6 +42,14 @@ public export
 data Pair : Type → Type → Type where
   MkPair : {a, b : Type} → (x : a) → (y : b) → Pair a b
 
+public export
+fst : (a, b) → a
+fst (x, _) = x
+
+public export
+snd : (a, b) → b
+snd (_, y) = y
+
 -- Utility
 
 public export
@@ -55,7 +63,7 @@ the : (0 t : Type) → (1 v : t) → t
 the _ v = v
 
 public export
-const : (x: t) -> (a -> t)
+const : (x: t) → (a → t)
 const x = \b => x
 
 public export

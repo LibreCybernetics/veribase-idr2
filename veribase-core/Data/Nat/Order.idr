@@ -55,3 +55,12 @@ Order Nat where
   proofOfAntisymetry    Z  (S y) Refl Refl impossible
   proofOfAntisymetry (S x)    Z  Refl Refl impossible
   proofOfAntisymetry (S x) (S y) prf1 prf2 = ?antisymetryHole
+
+public export
+TotalOrder Nat where
+
+public export
+StrictOrder Nat where
+
+public export
+StrictTotalOrder Nat where
