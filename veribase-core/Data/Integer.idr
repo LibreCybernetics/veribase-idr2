@@ -3,7 +3,7 @@ module Data.Integer
 import Builtin
 
 import Algebra.Ring.Ring
-import Control.Integral
+import Data.Integral
 import Relation.Equiv
 import Relation.Order
 

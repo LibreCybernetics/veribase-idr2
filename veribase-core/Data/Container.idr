@@ -1,4 +1,4 @@
-module Control.Container
+module Data.Container
 
 import Builtin
 

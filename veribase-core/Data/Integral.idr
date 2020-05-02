@@ -1,4 +1,4 @@
-module Control.Integral
+module Data.Integral
 
 import Builtin
 

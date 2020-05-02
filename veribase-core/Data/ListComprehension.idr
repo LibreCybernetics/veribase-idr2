@@ -1,7 +1,7 @@
-module Control.ListComprehension
+module Data.ListComprehension
 
-import Control.Container
 import Data.Bool
+import Data.Container
 import Data.Nat.Order
 import Data.LinkedList
 import Relation.Order

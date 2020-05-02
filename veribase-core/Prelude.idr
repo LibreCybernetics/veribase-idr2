@@ -7,14 +7,13 @@ import public Algebra.Group.Group
 import public Algebra.Ring.Ring
 import public Algebra.Ring.Util
 
-import public Control.Container
-import public Control.Integral
-import public Control.ListComprehension
-
 import public Data.Bool
+import public Data.Container
 import public Data.Either
 import public Data.Integer
+import public Data.Integral
 import public Data.LinkedList
+import public Data.ListComprehension
 import public Data.Maybe
 import public Data.Nat
 

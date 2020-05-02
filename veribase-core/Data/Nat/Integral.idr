@@ -4,9 +4,9 @@ import Builtin
 
 import Algebra.Ring.Ring
 import Algebra.Ring.Util
-import Control.Integral
 import Data.Bool
 import Data.Integer
+import Data.Integral
 import Data.Nat.Basic
 import Data.Nat.Order
 import Data.Nat.Semiring

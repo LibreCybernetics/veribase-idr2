@@ -19,13 +19,13 @@ modules = Prelude
         , Algebra.Ring.Ring
         , Algebra.Ring.Semiring
         , Algebra.Ring.Util
-        , Control.Container
-        , Control.Integral
-        , Control.ListComprehension
         , Data.Bool
+        , Data.Container
         , Data.Either
         , Data.Integer
+        , Data.Integral
         , Data.LinkedList
+        , Data.ListComprehension
         , Data.Maybe
         , Data.Nat.Basic
         , Data.Nat.Equiv
