@@ -9,12 +9,17 @@ import public Data.Nat.Basic
 
 %default total
 
--- Sum
+-- Addition
+
+%builtinNatAdd add
+
+add : Nat → Nat → Nat
+add x    Z  = x
+add x (S y) = S (x `add` y)
 
 public export
 [NatSumMagma] Magma Nat where
-  x ⋄    Z  = x
-  x ⋄ (S y) = S (x ⋄ y)
+  (⋄) = add
 
 public export
 [NatSumCommutativeMagma] CommutativeMagma Nat using NatSumMagma where
