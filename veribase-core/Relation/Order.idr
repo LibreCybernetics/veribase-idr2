@@ -62,16 +62,41 @@ data LTE : Order a ⇒ a → a → Type where
   IsLTE : Order a ⇒ (x, y: a) → {auto ok: x ≤ y = True} → LTE x y
 
 public export
+isLTE : Order a ⇒ (x, y: a) → Dec (x `LTE` y)
+isLTE x y with (x ≤ y)
+  isLTE x y | False = No ?holeLTEF
+  isLTE x y | True  = Yes (IsLTE x y {ok = ?holeLTET})
+
+public export
 data GTE : Order a ⇒ a → a → Type where
   IsGTE : Order a ⇒ (x, y: a) → {auto ok: x ≥ y = True} → GTE x y
+
+public export
+isGTE : Order a ⇒ (x, y: a) → Dec (x `GTE` y)
+isGTE x y with (x ≥ y)
+  isGTE x y | False = No ?holeGTEF
+  isGTE x y | True  = Yes (IsGTE x y {ok = ?holeGTET})
 
 public export
 data LT : Order a ⇒ a → a → Type where
   IsLT : Order a ⇒ (x, y: a) → {auto ok: x < y = True} → LT x y
 
 public export
+isLT : Order a ⇒ (x, y: a) → Dec (x `LT` y)
+isLT x y with (x < y)
+  isLT x y | False = No ?holeLTF
+  isLT x y | True  = Yes (IsLT x y {ok = ?holeLTT})
+
+public export
 data GT : Order a ⇒ a → a → Type where
   IsGT : Order a ⇒ (x, y: a) → {auto ok: x > y = True} → GT x y
+
+public export
+isGT : Order a ⇒ (x, y: a) → Dec (x `GT` y)
+isGT x y with (x > y)
+  isGT x y | False = No ?holeGTF
+  isGT x y | True  = Yes (IsGT x y {ok = ?holeGTT})
+
 
 --
 -- Bool Implementation

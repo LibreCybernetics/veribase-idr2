@@ -27,11 +27,6 @@ modules = Prelude
         , Data.LinkedList
         , Data.ListComprehension
         , Data.Maybe
-        , Data.Nat.Basic
-        , Data.Nat.Equiv
-        , Data.Nat.Integral
-        , Data.Nat.Order
-        , Data.Nat.Semiring
         , Data.Nat
         , Relation.Equiv
         , Relation.Order

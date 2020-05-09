@@ -11,7 +11,6 @@ import Relation.Order
 
 %integerLit fromInteger
 
-
 -- TODO: Add restrictions to remove Semiring.zero from the domains of div/mod.
 -- Upstream: https://github.com/edwinb/Idris2/issues/336
 public export

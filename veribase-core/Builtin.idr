@@ -114,8 +114,15 @@ Uninhabited Void where
   uninhabited = id
 
 public export
-absurd : Uninhabited t => (h : t) → a
+absurd : Uninhabited t ⇒ (h : t) → a
 absurd h = void (uninhabited h)
+
+-- Decidable
+
+public export
+data Dec : Type → Type where
+  Yes : (prf : prop)        → Dec prop
+  No  : (ctr : prop → Void) → Dec prop
 
 -- Rewrite
 

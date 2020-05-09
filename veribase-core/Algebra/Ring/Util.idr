@@ -1,7 +1,7 @@
 module Algebra.Ring.Util
 
 import Algebra.Ring.Semiring
-import Data.Nat.Basic
+import Data.Nat
 
 public export
 pow : (Semiring a) ⇒ a → Nat → a

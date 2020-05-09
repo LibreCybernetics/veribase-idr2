@@ -2,7 +2,7 @@ module Data.ListComprehension
 
 import Data.Bool
 import Data.Container
-import Data.Nat.Order
+import Data.Nat
 import Data.LinkedList
 import Relation.Order
 
