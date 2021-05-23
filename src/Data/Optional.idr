@@ -3,6 +3,9 @@ module Data.Optional
 import Builtin
 
 import Algebra.Equivalence
+import Algebra.Functor
+
+%default total
 
 public export
 data Optional t = Nothing | Some t
@@ -36,3 +39,14 @@ Equivalence t => Equivalence (Optional t) where
   decEquiv (Some a) (Some b) with (decEquiv a b)
     decEquiv (Some a) (Some b) | (Yes prf) = Yes $ BothSame prf
     decEquiv (Some a) (Some b) | (No ctra) = No $ fromNotEquiv ctra
+
+public export
+Functor Optional where
+  map f Nothing  = Nothing
+  map f (Some a) = Some . f $ a
+
+  proofIdentity Nothing  = Refl
+  proofIdentity (Some a) = Refl
+
+  proofComposition f g Nothing  = Refl
+  proofComposition f g (Some a) = Refl
