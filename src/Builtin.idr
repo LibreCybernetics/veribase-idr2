@@ -118,8 +118,12 @@ public export %extern
 void : (0 v : Void) -> a
 
 public export
+Not : Type -> Type
+Not t = t -> Void
+
+public export
 interface Uninhabited t where
-  uninhabited : t -> Void
+  uninhabited : Not t
 
 export
 Uninhabited Void where
@@ -133,8 +137,8 @@ absurd h = void (uninhabited h)
 
 public export
 data Dec : Type -> Type where
-  Yes : (prf : prop)         -> Dec prop
-  No  : (ctr : prop -> Void) -> Dec prop
+  Yes : (prf : p)     -> Dec p
+  No  : (ctr : Not p) -> Dec p
 
 -- Rewrite
 
