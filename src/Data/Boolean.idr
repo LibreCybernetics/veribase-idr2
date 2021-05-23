@@ -2,10 +2,35 @@ module Data.Boolean
 
 import Builtin
 
+import Algebra.Equivalence
+
 %default total
 
 public export
 data Boolean = False | True
+
+data BooleanEquiv : (a, b : Boolean) -> Type where
+  BothFalse : BooleanEquiv False False
+  BothTrue  : BooleanEquiv True  True
+
+public export
+Uninhabited (BooleanEquiv False True) where
+  uninhabited BothFalse impossible
+  uninhabited BothTrue  impossible
+
+public export
+Uninhabited (BooleanEquiv True False) where
+  uninhabited BothFalse impossible
+  uninhabited BothTrue  impossible
+
+public export
+Equivalence Boolean where
+  Equiv = BooleanEquiv
+
+  decEquiv False False = Yes $ BothFalse
+  decEquiv True  True  = Yes $ BothTrue
+  decEquiv False True  = No  $ absurd
+  decEquiv True  False = No  $ absurd
 
 not : Boolean -> Boolean
 not False = True
@@ -82,3 +107,8 @@ proofConjAssociative True b c =
   rewrite proofConjLeftIdentity b in
   rewrite proofConjLeftIdentity (b `conj` c) in
   Refl
+
+public export
+decToBoolean : Dec t -> Boolean
+decToBoolean (Yes _) = True
+decToBoolean (No  _) = False
