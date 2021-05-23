@@ -1,0 +1,9 @@
+package veribase
+
+sourcedir = "src"
+
+opts = "--no-prelude"
+
+modules = Builtin
+	, Data.Boolean
+	, Data.Optional
