@@ -36,9 +36,9 @@ Equivalence t => Equivalence (Optional t) where
   decEquiv Nothing  Nothing  = Yes $ BothNothing
   decEquiv Nothing  (Some _) = No $ absurd
   decEquiv (Some _) Nothing  = No $ absurd
-  decEquiv (Some a) (Some b) with (decEquiv a b)
-    decEquiv (Some a) (Some b) | (Yes prf) = Yes $ BothSame prf
-    decEquiv (Some a) (Some b) | (No ctra) = No $ fromNotEquiv ctra
+  decEquiv (Some a) (Some b) = case (decEquiv a b) of
+    (Yes prf) => Yes $ BothSame prf
+    (No ctra) => No $ fromNotEquiv ctra
 
 public export
 Functor Optional where
