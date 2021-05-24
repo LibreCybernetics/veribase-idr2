@@ -5,7 +5,9 @@ sourcedir = "src"
 opts = "--no-prelude"
 
 modules = Builtin
+	, Algebra.Applicative
 	, Algebra.Equivalence
+	, Algebra.Functor
 	, Data.Boolean
 	, Data.LinkedList
 	, Data.Optional
