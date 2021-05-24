@@ -7,4 +7,5 @@ opts = "--no-prelude"
 modules = Builtin
 	, Algebra.Equivalence
 	, Data.Boolean
+	, Data.LinkedList
 	, Data.Optional
