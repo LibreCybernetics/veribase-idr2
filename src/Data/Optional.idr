@@ -10,24 +10,25 @@ import Algebra.Functor
 public export
 data Optional t = Nothing | Some t
 
-data OptionalEquiv : (a, b : Optional t) -> Type where
-  BothNothing : OptionalEquiv Nothing Nothing
-  BothSame : Equivalence t => {a, b : t} -> (ok : Equiv a b) -> OptionalEquiv (Some a) (Some b)
+data OptionalEquiv : Equivalence t => (a, b : Optional t) -> Type where
+  BothNothing : (e : Equivalence t) => OptionalEquiv @{e} Nothing Nothing
+  BothSame : (e : Equivalence t) => {a, b : t} -> (ok : Equiv a b)
+           -> OptionalEquiv @{e} (Some a) (Some b)
 
 public export
-Uninhabited (OptionalEquiv Nothing (Some b)) where
+(e : Equivalence t) => Uninhabited (OptionalEquiv @{e} Nothing (Some b)) where
   uninhabited BothNothing  impossible
   uninhabited (BothSame _) impossible
 
 public export
-Uninhabited (OptionalEquiv (Some a) Nothing) where
+(e : Equivalence t) => Uninhabited (OptionalEquiv @{e} (Some a) Nothing) where
   uninhabited BothNothing  impossible
   uninhabited (BothSame _) impossible
 
 public export
 fromNotEquiv : Equivalence t => {a, b : t} -> (ok : Not (Equiv a b)) -> Not (OptionalEquiv (Some a) (Some b))
 fromNotEquiv ok BothNothing impossible
-fromNotEquiv ok (BothSame ctr) = ?ctra
+fromNotEquiv ok (BothSame ctr) = ok ctr
 
 public export
 Equivalence t => Equivalence (Optional t) where

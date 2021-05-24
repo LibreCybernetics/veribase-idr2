@@ -12,44 +12,48 @@ infixr 7 ::
 public export
 data LinkedList t = Nil | (::) t (LinkedList t)
 
-data LinkedListEquiv : (a, b : LinkedList t) -> Type where
-  BothEmpty : LinkedListEquiv Nil Nil
-  EquivHeadAndTail : Equivalence t => {a, b : t} -> {x, y : LinkedList t}
+data LinkedListEquiv : Equivalence t => (a, b : LinkedList t) -> Type where
+  BothEmpty : (e : Equivalence t) => LinkedListEquiv @{e} Nil Nil
+  EquivHeadAndTail : (e : Equivalence t) => {a, b : t} -> {x, y : LinkedList t}
                    -> (ok1: Equiv a b) -> (ok2: LinkedListEquiv x y)
-                   -> LinkedListEquiv (a :: x) (b :: y)
+                   -> LinkedListEquiv @{e} (a :: x) (b :: y)
 
 public export
-Uninhabited (LinkedListEquiv Nil (h :: t)) where
+(e : Equivalence a) => Uninhabited (LinkedListEquiv @{e} Nil (h :: t)) where
   uninhabited BothEmpty impossible
   uninhabited (EquivHeadAndTail h t) impossible
 
 public export
-Uninhabited (LinkedListEquiv (h :: t) Nil) where
+(e : Equivalence a) => Uninhabited (LinkedListEquiv @{e} (h :: t) Nil) where
   uninhabited BothEmpty impossible
   uninhabited (EquivHeadAndTail h t) impossible
 
 public export
-fromNotEquivHead : Equivalence t => {a, b : t} -> (ok: Not (Equiv a b)) -> Not (LinkedListEquiv (a :: x) (b :: y))
+fromNotEquivHead : (e : Equivalence t) => {a, b : t} -> (ok: Not (Equiv a b))
+                 -> Not (LinkedListEquiv @{e} (a :: x) (b :: y))
 fromNotEquivHead ctr BothEmpty impossible
-fromNotEquivHead ctr (EquivHeadAndTail prf _) = ?ctra
+fromNotEquivHead ctr (EquivHeadAndTail prf _) = ctr prf
 
 public export
-fromNotEquivTail : (ok: Not (LinkedListEquiv x y)) -> Not (LinkedListEquiv (a :: x) (b :: y))
+fromNotEquivTail : (e : Equivalence t) => (ok: Not (LinkedListEquiv @{e} x y))
+                 -> Not (LinkedListEquiv @{e} (a :: x) (b :: y))
 fromNotEquivTail ctr BothEmpty impossible
 fromNotEquivTail ctr (EquivHeadAndTail _ prf) = ctr prf
 
-public export
-Equivalence t => Equivalence (LinkedList t) where
-  Equiv = LinkedListEquiv
-
-  decEquiv Nil Nil = Yes $ BothEmpty
-  decEquiv Nil (_ :: _) = No $ absurd
-  decEquiv (_ :: _) Nil = No $ absurd
-  decEquiv (h1 :: t1) (h2 :: t2) = case (decEquiv h1 h2, decEquiv t1 t2) of
+decLinkedListEquiv : (e : Equivalence t) => (a, b : LinkedList t) -> Dec (LinkedListEquiv @{e} a b)
+decLinkedListEquiv Nil Nil = Yes $ BothEmpty
+decLinkedListEquiv Nil (_ :: _) = No $ absurd
+decLinkedListEquiv (_ :: _) Nil = No $ absurd
+decLinkedListEquiv @{e} (h1 :: t1) (h2 :: t2) = assert_total $
+  case (decEquiv @{e} h1 h2, decLinkedListEquiv t1 t2) of
     (Yes prf1, Yes prf2) => Yes $ EquivHeadAndTail prf1 prf2
-    (Yes prf1, No ctra2) => No $ fromNotEquivTail ctra2
-    (No ctra1, _) => No $ fromNotEquivHead ctra1
-    _ => ?impossibleCase -- TODO: Upstream bug
+    (Yes prf1, No ctra2) => No $ fromNotEquivTail @{e} ctra2
+    (No ctra1, _) => No $ fromNotEquivHead @{e} ctra1
+
+public export
+(Equivalence t) => Equivalence (LinkedList t) where
+  Equiv    = LinkedListEquiv
+  decEquiv = decLinkedListEquiv
 
 public export
 Functor LinkedList where
