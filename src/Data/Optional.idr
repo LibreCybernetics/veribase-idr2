@@ -2,6 +2,7 @@ module Data.Optional
 
 import Builtin
 
+import Algebra.Applicative
 import Algebra.Equivalence
 import Algebra.Functor
 
@@ -51,3 +52,25 @@ Functor Optional where
 
   proofComposition f g Nothing  = Refl
   proofComposition f g (Some a) = Refl
+
+public export
+Applicative Optional where
+  pure = Some
+
+  Nothing <*> _ = Nothing
+  _ <*> Nothing = Nothing
+  (Some f) <*> (Some x) = Some $ f x
+
+  proofIdentity Nothing  = Refl
+  proofIdentity (Some x) = Refl
+
+  proofComposition Nothing  Nothing  _ = Refl
+  proofComposition Nothing  (Some g) _ = Refl
+  proofComposition (Some f) Nothing  _ = Refl
+  proofComposition (Some f) (Some g) Nothing  = Refl
+  proofComposition (Some f) (Some g) (Some x) = Refl
+
+  proofHomomorphism f x = Refl
+
+  proofInterchange Nothing  x = Refl
+  proofInterchange (Some f) x = Refl
