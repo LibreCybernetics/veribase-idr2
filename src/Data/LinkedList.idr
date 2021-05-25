@@ -4,6 +4,7 @@ import Builtin
 
 import Algebra.Equivalence
 import Algebra.Functor
+import Algebra.Monoid
 
 %default total
 
@@ -54,6 +55,35 @@ public export
 (Equivalence t) => Equivalence (LinkedList t) where
   Equiv    = LinkedListEquiv
   decEquiv = decLinkedListEquiv
+
+public export
+concat : LinkedList t -> LinkedList t -> LinkedList t
+concat Nil     y = y
+concat (x::xs) y = x :: concat xs y
+
+public export
+concatNil : (l : LinkedList t) -> concat l Nil = l
+concatNil Nil = Refl
+concatNil (x::xs) = rewrite concatNil xs in Refl
+
+public export
+Magma (LinkedList t) where
+  (<>) = concat
+
+public export
+Semigroup (LinkedList t) where
+  proofAssociativity Nil     _ _ = Refl
+  proofAssociativity (x::xs) y z = rewrite proofAssociativity xs y z in Refl
+
+public export
+Monoid (LinkedList t) where
+  id = Nil
+
+  proofLeftIdentity Nil     = Refl
+  proofLeftIdentity (x::xs) = rewrite proofLeftIdentity xs in Refl
+
+  proofRightIdentity Nil     = Refl
+  proofRightIdentity (y::ys) = rewrite proofRightIdentity ys in Refl
 
 public export
 Functor LinkedList where
