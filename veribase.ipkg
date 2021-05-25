@@ -8,6 +8,10 @@ modules = Builtin
 	, Algebra.Applicative
 	, Algebra.Equivalence
 	, Algebra.Functor
+	, Algebra.Group
+	, Algebra.Magma
+	, Algebra.Monoid
+	, Algebra.Semigroup
 	, Data.Boolean
 	, Data.LinkedList
 	, Data.Optional
