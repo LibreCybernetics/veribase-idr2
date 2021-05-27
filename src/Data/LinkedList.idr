@@ -2,6 +2,7 @@ module Data.LinkedList
 
 import Builtin
 
+import Algebra.Applicative
 import Algebra.Equivalence
 import Algebra.Functor
 import Algebra.Monoid
@@ -96,3 +97,39 @@ Functor LinkedList where
 
   proofComposition f g Nil = Refl
   proofComposition f g (h::t) = rewrite proofComposition f g t in Refl
+
+public export
+app : LinkedList (a -> b) -> LinkedList a -> LinkedList b
+app Nil     _ = Nil
+app (f::fs) l = map f l <> app fs l
+
+public export
+appNil : (f : LinkedList (a -> b)) -> f `app` Nil = Nil
+appNil Nil     = Refl
+appNil (f::fs) = rewrite appNil fs in Refl
+
+partial
+public export
+Applicative LinkedList where
+  pure x = [x]
+
+  (<*>) = app
+
+  proofIdentity Nil = Refl
+  proofIdentity (_::xs) with (Functor.proofIdentity xs)
+    proofIdentity (_::xs) | prf =
+      rewrite concatNil (map identity xs) in
+      rewrite prf in Refl
+
+  proofHomomorphism f x = Refl
+
+  proofInterchange Nil x = Refl
+  proofInterchange (f::fs) x = rewrite proofInterchange fs x in Refl
+
+  proofComposition Nil Nil _ = Refl
+  proofComposition Nil (_::gs) _ =
+    rewrite appNil gs in
+    -- rewrite concatNil (map (.) gs) in
+    ?holeComposition1
+  proofComposition (f::fs) gs _ =
+    ?holeComposition2
