@@ -10,6 +10,7 @@ modules = Builtin
 	, Algebra.Functor
 	, Algebra.Group
 	, Algebra.Magma
+	, Algebra.Monad
 	, Algebra.Monoid
 	, Algebra.Semigroup
 	, Data.Boolean
