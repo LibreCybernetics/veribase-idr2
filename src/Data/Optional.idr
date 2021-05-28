@@ -5,6 +5,7 @@ import Builtin
 import Algebra.Applicative
 import Algebra.Equivalence
 import Algebra.Functor
+import Algebra.Monad
 
 %default total
 
@@ -74,3 +75,16 @@ Applicative Optional where
 
   proofInterchange Nothing  x = Refl
   proofInterchange (Some f) x = Refl
+
+public export
+Monad Optional where
+  bind Nothing  _ = Nothing
+  bind (Some x) f = f x
+
+  proofLeftIdentity x f = Refl
+
+  proofRightIdentity Nothing  = Refl
+  proofRightIdentity (Some x) = Refl
+
+  proofAssociativity Nothing  f g = Refl
+  proofAssociativity (Some x) f g = Refl
