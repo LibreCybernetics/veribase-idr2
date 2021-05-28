@@ -5,6 +5,7 @@ import Builtin
 import Algebra.Applicative
 import Algebra.Equivalence
 import Algebra.Functor
+import Algebra.Monad
 import Algebra.Monoid
 
 %default total
@@ -81,10 +82,10 @@ Monoid (LinkedList t) where
   id = Nil
 
   proofLeftIdentity Nil     = Refl
-  proofLeftIdentity (x::xs) = rewrite proofLeftIdentity xs in Refl
+  proofLeftIdentity (x::xs) = rewrite Monoid.proofLeftIdentity xs in Refl
 
   proofRightIdentity Nil     = Refl
-  proofRightIdentity (y::ys) = rewrite proofRightIdentity ys in Refl
+  proofRightIdentity (y::ys) = rewrite Monoid.proofRightIdentity ys in Refl
 
 public export
 Functor LinkedList where
@@ -108,7 +109,6 @@ appNil : (f : LinkedList (a -> b)) -> f `app` Nil = Nil
 appNil Nil     = Refl
 appNil (f::fs) = rewrite appNil fs in Refl
 
-partial
 public export
 Applicative LinkedList where
   pure x = [x]
@@ -133,3 +133,19 @@ Applicative LinkedList where
     ?holeComposition1
   proofComposition (f::fs) gs _ =
     ?holeComposition2
+
+public export
+Monad LinkedList where
+  bind Nil _ = Nil
+  bind (x::xs) f = f x <> (xs `bind` f)
+
+  proofLeftIdentity x f = rewrite concatNil (f x) in Refl
+
+  proofRightIdentity Nil = Refl
+  proofRightIdentity (x::xs) with (Monad.proofRightIdentity xs)
+    proofRightIdentity (_::_) | prf = rewrite prf in Refl
+
+  proofAssociativity Nil f g = Refl
+  proofAssociativity (x::xs) f g with (f x)
+    proofAssociativity (x::xs) f g | Nil = rewrite proofAssociativity xs f g in Refl
+    proofAssociativity (x::xs) f g | (r::rs) = ?holeAssociativity
