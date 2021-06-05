@@ -13,6 +13,8 @@ modules = Builtin
 	, Algebra.Monad
 	, Algebra.Monoid
 	, Algebra.Semigroup
+
 	, Data.Boolean
+	, Data.Either
 	, Data.LinkedList
 	, Data.Optional
