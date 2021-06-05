@@ -2,10 +2,10 @@ module Data.Optional
 
 import Builtin
 
-import Algebra.Applicative
-import Algebra.Equivalence
-import Algebra.Functor
-import Algebra.Monad
+import Algebra.Control.Applicative
+import Algebra.Relation.Equivalence
+import Algebra.Control.Functor
+import Algebra.Control.Monad
 
 %default total
 

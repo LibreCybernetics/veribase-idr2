@@ -2,8 +2,8 @@ module Data.Boolean
 
 import public Builtin
 
-import public Algebra.Equivalence
-import public Algebra.Monoid
+import public Algebra.Relation.Equivalence
+import public Algebra.Group.Monoid
 
 %default total
 

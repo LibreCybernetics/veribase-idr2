@@ -1,4 +1,4 @@
-module Algebra.Equivalence
+module Algebra.Relation.Equivalence
 
 import Builtin
 

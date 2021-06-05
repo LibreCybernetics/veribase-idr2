@@ -1,8 +1,8 @@
-module Algebra.Monoid
+module Algebra.Group.Monoid
 
 import Builtin
 
-import public Algebra.Semigroup
+import public Algebra.Group.Semigroup
 
 public export
 interface Semigroup t => Monoid t where

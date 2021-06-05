@@ -1,8 +1,8 @@
-module Algebra.Applicative
+module Algebra.Control.Applicative
 
 import Builtin
 
-import Algebra.Functor
+import Algebra.Control.Functor
 
 %default total
 

@@ -1,4 +1,4 @@
-module Algebra.Magma
+module Algebra.Group.Magma
 
 import Builtin
 

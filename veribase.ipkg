@@ -5,14 +5,16 @@ sourcedir = "src"
 opts = "--no-prelude"
 
 modules = Builtin
-	, Algebra.Applicative
-	, Algebra.Equivalence
-	, Algebra.Functor
-	, Algebra.Group
-	, Algebra.Magma
-	, Algebra.Monad
-	, Algebra.Monoid
-	, Algebra.Semigroup
+	, Algebra.Control.Applicative
+	, Algebra.Control.Functor
+	, Algebra.Control.Monad
+
+	, Algebra.Group.Group
+	, Algebra.Group.Magma
+	, Algebra.Group.Monoid
+	, Algebra.Group.Semigroup
+
+	, Algebra.Relation.Equivalence
 
 	, Data.Boolean
 	, Data.Either

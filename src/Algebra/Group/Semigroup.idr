@@ -1,8 +1,8 @@
-module Algebra.Semigroup
+module Algebra.Group.Semigroup
 
 import Builtin
 
-import public Algebra.Magma
+import public Algebra.Group.Magma
 
 public export
 interface Magma t => Semigroup t where

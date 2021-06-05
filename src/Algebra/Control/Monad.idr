@@ -1,8 +1,8 @@
-module Algebra.Monad
+module Algebra.Control.Monad
 
 import Builtin
 
-import Algebra.Applicative
+import Algebra.Control.Applicative
 
 %default total
 

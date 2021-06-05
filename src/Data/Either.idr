@@ -2,9 +2,9 @@ module Data.Either
 
 import public Builtin
 
-import Algebra.Functor
-import Algebra.Applicative
-import Algebra.Monad
+import Algebra.Control.Functor
+import Algebra.Control.Applicative
+import Algebra.Control.Monad
 
 public export
 data Either a b = Left a | Right b

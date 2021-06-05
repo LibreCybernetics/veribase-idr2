@@ -1,4 +1,4 @@
-module Algebra.Functor
+module Algebra.Control.Functor
 
 import Builtin
 
