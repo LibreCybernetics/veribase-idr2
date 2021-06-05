@@ -14,7 +14,7 @@ interface Order t => MeetSemilattice t where
 
   proofIdempotence : (x : t) -> x /\ x = x
   proofCommutative : (x, y : t) -> x /\ y = y /\ x
-  proofAssocitive : (x, y, z : t) -> x /\ (y /\ z) = (x /\ y) /\ z
+  proofAssociative : (x, y, z : t) -> x /\ (y /\ z) = (x /\ y) /\ z
 
   proofLowerBound : (x, y : t) -> (x /\ y `LTE` x, x /\ y `LTE` y)
   proofGreatestLowerBound : (b, x, y : t) -> b `LTE` x -> b `LTE` y -> b `LTE` x /\ y

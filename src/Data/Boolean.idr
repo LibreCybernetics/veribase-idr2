@@ -5,7 +5,11 @@ import public Builtin
 import public Algebra.Relation.Equivalence
 import public Algebra.Relation.Preorder
 import public Algebra.Relation.Order
+
 import public Algebra.Group.Monoid
+
+import public Algebra.Lattice.JoinSemilattice
+import public Algebra.Lattice.MeetSemilattice
 
 import Data.Either
 
@@ -160,6 +164,7 @@ public export
   True <> True = True
   _    <> _    = False
 
+public export
 conj : Boolean -> Boolean -> Boolean
 conj = (<>) @{BooleanConjMagma}
 
@@ -199,6 +204,54 @@ proofConjCommutative True b =
   rewrite proofConjLeftIdentity b in
   rewrite proofConjRightIdentity b in
   Refl
+
+--
+-- Lattice
+--
+
+public export
+MeetSemilattice Boolean where
+  (/\) = conj
+
+  proofIdempotence False = Refl
+  proofIdempotence True  = Refl
+  proofAssociative = proofAssociativity @{BooleanConjSemigroup}
+  proofCommutative = proofConjCommutative
+
+  proofLowerBound False False = (FalseLTEAny, FalseLTEAny)
+  proofLowerBound False True  = (FalseLTEAny, FalseLTEAny)
+  proofLowerBound True  False = (FalseLTEAny, FalseLTEAny)
+  proofLowerBound True  True  = (TrueLTETrue, TrueLTETrue)
+
+  proofGreatestLowerBound False False False FalseLTEAny FalseLTEAny = FalseLTEAny
+  proofGreatestLowerBound False False True  FalseLTEAny FalseLTEAny = FalseLTEAny
+  proofGreatestLowerBound False True  False FalseLTEAny FalseLTEAny = FalseLTEAny
+  proofGreatestLowerBound False True  True  FalseLTEAny FalseLTEAny = FalseLTEAny
+  proofGreatestLowerBound True  True  True  TrueLTETrue TrueLTETrue = TrueLTETrue
+
+public export
+JoinSemilattice Boolean where
+  (\/) = disj
+
+  proofIdempotence False = Refl
+  proofIdempotence True  = Refl
+  proofAssociative = proofAssociativity @{BooleanDisjSemigroup}
+  proofCommutative = proofDisjCommutative
+
+  proofUpperBound False False = (FalseLTEAny, FalseLTEAny)
+  proofUpperBound False True  = (FalseLTEAny, TrueLTETrue)
+  proofUpperBound True  False = (TrueLTETrue, FalseLTEAny)
+  proofUpperBound True  True  = (TrueLTETrue, TrueLTETrue)
+
+  proofLeastUpperBound False False False FalseLTEAny FalseLTEAny = FalseLTEAny
+  proofLeastUpperBound True  False False FalseLTEAny FalseLTEAny = FalseLTEAny
+  proofLeastUpperBound True  False True  FalseLTEAny TrueLTETrue = TrueLTETrue
+  proofLeastUpperBound True  True  False TrueLTETrue FalseLTEAny = TrueLTETrue
+  proofLeastUpperBound True  True  True  TrueLTETrue TrueLTETrue = TrueLTETrue
+
+--
+-- Util
+--
 
 public export
 decToBoolean : Dec t -> Boolean
