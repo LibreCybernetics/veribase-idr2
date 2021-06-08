@@ -1,6 +1,7 @@
 module Control.IO
 
-import public PrimIO
+import Builtin
+import PrimIO
 
 import Algebra.Control.Functor
 import Algebra.Control.Applicative
@@ -9,10 +10,6 @@ import Algebra.Control.Monad
 import Control.Console
 
 %default total
-
-public export
-data IO : Type -> Type where
-  MkIO : PrimIO a -> IO a
 
 public export
 Functor IO where
@@ -36,7 +33,7 @@ Applicative IO where
 
 public export
 Monad IO where
-  bind (MkIO px) f = MkIO (
+  (MkIO px) >>= f = MkIO (
     px `prim__io_bind` (\x =>
       let MkIO p := f x in p))
 

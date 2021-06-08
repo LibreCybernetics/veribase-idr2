@@ -2,7 +2,7 @@ module Algebra.Group.Semigroup
 
 import Builtin
 
-import public Algebra.Group.Magma
+import Algebra.Group.Magma
 
 %default total
 

@@ -2,7 +2,9 @@ module Algebra.Group.Group
 
 import Builtin
 
-import public Algebra.Group.Monoid
+import Algebra.Group.Magma
+import Algebra.Group.Monoid
+import Algebra.Group.Semigroup
 
 %default total
 

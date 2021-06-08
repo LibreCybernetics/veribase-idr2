@@ -2,11 +2,15 @@ module Data.LinkedList
 
 import Builtin
 
-import Algebra.Control.Applicative
 import Algebra.Relation.Equivalence
+
+import Algebra.Control.Applicative
 import Algebra.Control.Functor
 import Algebra.Control.Monad
+
+import Algebra.Group.Magma
 import Algebra.Group.Monoid
+import Algebra.Group.Semigroup
 
 %default total
 
@@ -136,8 +140,8 @@ Applicative LinkedList where
 
 public export
 Monad LinkedList where
-  bind Nil _ = Nil
-  bind (x::xs) f = f x <> (xs `bind` f)
+  Nil >>= _ = Nil
+  (x::xs) >>= f = f x <> (xs >>= f)
 
   proofLeftIdentity x f = rewrite concatNil (f x) in Refl
 

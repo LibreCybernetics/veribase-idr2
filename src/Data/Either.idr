@@ -1,6 +1,6 @@
 module Data.Either
 
-import public Builtin
+import Builtin
 
 import Algebra.Control.Functor
 import Algebra.Control.Applicative
@@ -47,8 +47,8 @@ Applicative (Either t) where
 
 public export
 Monad (Either t) where
-  (Left x)  `bind` _ = Left x
-  (Right x) `bind` f = f x
+  (Left x)  >>= _ = Left x
+  (Right x) >>= f = f x
 
   proofLeftIdentity _ _ = Refl
 

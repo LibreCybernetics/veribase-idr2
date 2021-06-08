@@ -78,8 +78,8 @@ Applicative Optional where
 
 public export
 Monad Optional where
-  bind Nothing  _ = Nothing
-  bind (Some x) f = f x
+  Nothing >>= _ = Nothing
+  (Some x) >>= f = f x
 
   proofLeftIdentity x f = Refl
 

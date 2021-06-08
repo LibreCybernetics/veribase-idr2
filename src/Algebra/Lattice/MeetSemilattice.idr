@@ -1,8 +1,9 @@
 module Algebra.Lattice.MeetSemilattice
 
-import public Builtin
+import Builtin
 
-import public Algebra.Relation.Order
+import Algebra.Relation.Preorder
+import Algebra.Relation.Order
 
 %default total
 

@@ -1,11 +1,13 @@
 module Control.Console
 
-import public Builtin
+import Builtin
+
+import Algebra.Control.Monad
 
 %default total
 
 public export
-interface Console t where
+interface Monad t => Console t where
   getChar : t Char
   getLine : t String
   putChar : Char -> t ()

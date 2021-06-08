@@ -1,6 +1,6 @@
 module Algebra.Relation.Preorder
 
-import public Builtin
+import Builtin
 
 %default total
 

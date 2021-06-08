@@ -36,11 +36,11 @@ OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN
 IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -}
 
-import public Builtin
+import Builtin
 
 %default total
 
-public export
+export
 data IORes : Type -> Type where
   MkIORes : a -> %World -> IORes a
 
@@ -55,3 +55,19 @@ prim__io_pure x w = MkIORes x w
 export
 prim__io_bind : PrimIO a -> (a -> PrimIO b) -> PrimIO b
 prim__io_bind fn k w = let MkIORes x' w' := fn w in k x' w'
+
+unsafeCreateWorld : (%World -> a) -> a
+unsafeCreateWorld f = f %MkWorld
+
+unsafeDestroyWorld : %World -> a -> a
+unsafeDestroyWorld %MkWorld x = x
+
+
+public export
+data IO : Type -> Type where
+  MkIO : PrimIO a -> IO a
+
+public export
+unsafePerformIO : IO a -> a
+unsafePerformIO (MkIO p) = unsafeCreateWorld (\w =>
+  let MkIORes res w' := p w in unsafeDestroyWorld w' res)

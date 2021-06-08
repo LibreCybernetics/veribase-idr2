@@ -1,11 +1,11 @@
 module Algebra.Relation.Order
 
-import public Builtin
+import Builtin
 
-import public Algebra.Relation.Preorder
-import public Algebra.Relation.Equivalence
+import Algebra.Relation.Preorder
+import Algebra.Relation.Equivalence
 
-import public Data.Either
+import Data.Either
 
 %default total
 

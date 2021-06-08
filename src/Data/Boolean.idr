@@ -1,15 +1,17 @@
 module Data.Boolean
 
-import public Builtin
+import Builtin
 
-import public Algebra.Relation.Equivalence
-import public Algebra.Relation.Preorder
-import public Algebra.Relation.Order
+import Algebra.Relation.Equivalence
+import Algebra.Relation.Preorder
+import Algebra.Relation.Order
 
-import public Algebra.Group.Monoid
+import Algebra.Group.Magma
+import Algebra.Group.Monoid
+import Algebra.Group.Semigroup
 
-import public Algebra.Lattice.JoinSemilattice
-import public Algebra.Lattice.MeetSemilattice
+import Algebra.Lattice.JoinSemilattice
+import Algebra.Lattice.MeetSemilattice
 
 import Data.Either
 
