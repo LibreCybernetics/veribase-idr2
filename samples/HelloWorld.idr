@@ -1,10 +1,4 @@
-import Builtin
-import PrimIO
-
-import Algebra.Control.Monad
-
-import Control.Console
-import Control.IO
+import Verilude
 
 askName : Console m => m ()
 askName = do

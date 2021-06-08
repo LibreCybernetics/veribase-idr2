@@ -4,7 +4,7 @@ sourcedir = "src"
 
 opts = "--no-prelude"
 
-modules = Builtin, PrimIO
+modules = Builtin, PrimIO, Verilude
 	, Algebra.Control.Applicative
 	, Algebra.Control.Functor
 	, Algebra.Control.Monad
