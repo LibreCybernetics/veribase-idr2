@@ -41,6 +41,9 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 infixr 9 .
 infixr 8 $
 
+public export
+data Unit = MkUnit
+
 -- Tuples
 
 public export

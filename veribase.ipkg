@@ -4,7 +4,7 @@ sourcedir = "src"
 
 opts = "--no-prelude"
 
-modules = Builtin
+modules = Builtin, PrimIO
 	, Algebra.Control.Applicative
 	, Algebra.Control.Functor
 	, Algebra.Control.Monad
@@ -20,6 +20,9 @@ modules = Builtin
 	, Algebra.Relation.Equivalence
 	, Algebra.Relation.Order
 	, Algebra.Relation.Preorder
+
+	, Control.Console
+	, Control.IO
 
 	, Data.Boolean
 	, Data.Either
