@@ -4,6 +4,8 @@ import Builtin
 
 import public Algebra.Group.Monoid
 
+%default total
+
 public export
 interface Monoid t => Group t where
   neg : t -> t

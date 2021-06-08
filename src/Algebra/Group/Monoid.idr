@@ -4,6 +4,8 @@ import Builtin
 
 import public Algebra.Group.Semigroup
 
+%default total
+
 public export
 interface Semigroup t => Monoid t where
   id : t

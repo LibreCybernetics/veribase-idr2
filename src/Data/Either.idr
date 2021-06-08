@@ -6,6 +6,8 @@ import Algebra.Control.Functor
 import Algebra.Control.Applicative
 import Algebra.Control.Monad
 
+%default total
+
 public export
 data Either a b = Left a | Right b
 

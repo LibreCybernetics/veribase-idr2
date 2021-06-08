@@ -7,6 +7,8 @@ import public Algebra.Relation.Equivalence
 
 import public Data.Either
 
+%default total
+
 public export
 interface (Equivalence t, Preorder t) => Order t where
   LT : t -> t -> Type
