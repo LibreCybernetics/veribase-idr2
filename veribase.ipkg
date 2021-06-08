@@ -28,4 +28,5 @@ modules = Builtin, PrimIO, Verilude
 	, Data.Boolean
 	, Data.Either
 	, Data.LinkedList
+	, Data.Natural
 	, Data.Optional
