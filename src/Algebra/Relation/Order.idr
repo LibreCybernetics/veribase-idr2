@@ -5,7 +5,7 @@ import Builtin
 import Algebra.Relation.Preorder
 import Algebra.Relation.Equivalence
 
-import Data.Either
+import public Data.Either
 
 %default total
 

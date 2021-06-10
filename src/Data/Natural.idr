@@ -4,6 +4,7 @@ import Builtin
 
 import Algebra.Relation.Equivalence
 import Algebra.Relation.Preorder
+import Algebra.Relation.Order
 
 %default total
 
@@ -61,6 +62,11 @@ Uninhabited (NaturalLTE (Succesor y) Zero) where
   uninhabited (SuccesorLTE _) impossible
 
 public export
+proofLTEThenLTESuccesor : NaturalLTE x y -> NaturalLTE x (Succesor y)
+proofLTEThenLTESuccesor {x=Zero} ZeroLTEAny = ZeroLTEAny
+proofLTEThenLTESuccesor (SuccesorLTE p) = SuccesorLTE $ proofLTEThenLTESuccesor p
+
+public export
 proofNotLTEThenNotSuccesorLTE : Not (NaturalLTE x y) -> Not (NaturalLTE (Succesor x) (Succesor y))
 proofNotLTEThenNotSuccesorLTE h (SuccesorLTE ctra) = h ctra
 
@@ -82,3 +88,28 @@ Preorder Natural where
   proofTransitivity Zero (Succesor y) (Succesor z) ZeroLTEAny (SuccesorLTE p) = ZeroLTEAny
   proofTransitivity (Succesor x) (Succesor y) (Succesor z) (SuccesorLTE p1) (SuccesorLTE p2) =
     SuccesorLTE $ proofTransitivity x y z p1 p2
+
+public export
+Order Natural where
+  LT x = NaturalLTE (Succesor x)
+
+  decLT Zero Zero = No absurd
+  decLT Zero (Succesor y) = Yes $ SuccesorLTE ZeroLTEAny
+  decLT (Succesor _) Zero = No absurd
+  decLT (Succesor x) (Succesor y) =
+     case decLT x y of
+       Yes p => Yes $ SuccesorLTE p
+       No cp => No $ proofNotLTEThenNotSuccesorLTE cp
+
+  proofAntisymetry Zero Zero ZeroLTEAny ZeroLTEAny = BothZero
+  proofAntisymetry (Succesor x) (Succesor y) (SuccesorLTE p1) (SuccesorLTE p2) =
+    SuccesorEquiv $ proofAntisymetry x y p1 p2
+
+  proofLTThenLTE (SuccesorLTE p) = proofLTEThenLTESuccesor p
+
+  proofLTEThenLTOrEquiv Zero Zero ZeroLTEAny = Right BothZero
+  proofLTEThenLTOrEquiv Zero (Succesor y) ZeroLTEAny = Left $ SuccesorLTE ZeroLTEAny
+  proofLTEThenLTOrEquiv (Succesor x) (Succesor y) (SuccesorLTE p) =
+    case proofLTEThenLTOrEquiv x y p of
+      Left l => Left $ SuccesorLTE l
+      Right e => Right $ SuccesorEquiv e
