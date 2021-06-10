@@ -1,7 +1,6 @@
 module Builtin
 
 {-
-
 Taken from Idris2 STDLIB
 
 Copyright (c) 2019 Edwin Brady
@@ -41,6 +40,8 @@ IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 infixr 9 .
 infixr 8 $
 
+-- Unit
+
 public export
 data Unit = MkUnit
 
@@ -48,7 +49,7 @@ data Unit = MkUnit
 
 public export
 data Pair : Type -> Type -> Type where
-  MkPair : {a, b : Type} -> (x : a) -> (y : b) -> Pair a b
+  MkPair : (x : a) -> (y : b) -> Pair a b
 
 public export
 fst : (a, b) -> a
@@ -65,24 +66,24 @@ identity : a -> a
 identity x = x
 
 public export
-the : (0 t : Type) -> (a : t) -> t
-the _ x = x
+the : (0 t : Type) -> t -> t
+the _ = identity
 
 public export
-const : (x : a) -> ((0 _ : b) -> a)
-const x = \_ => x
+constant : a -> b -> a
+constant x _ = x
 
 public export
 ($) : (a -> b) -> a -> b
 ($) f x = f x
 
 public export
-flip : (f : a -> b -> c) -> b -> a -> c
+flip : (a -> b -> c) -> b -> a -> c
 flip f x y = f y x
 
 public export
 (.) : (b -> c) -> (a -> b) -> a -> c
-(.) f g = \x => f (g x)
+(.) f g x = f $ g x
 
 -- Assertions
 
@@ -140,8 +141,8 @@ absurd h = void (uninhabited h)
 
 public export
 data Dec : Type -> Type where
-  Yes : (prf : p)     -> Dec p
-  No  : (ctr : Not p) -> Dec p
+  Yes :     p -> Dec p
+  No  : Not p -> Dec p
 
 -- Rewrite
 
@@ -151,7 +152,3 @@ rewrite__impl : {0 x, y : a} -> (0 p : _) -> (0 rule : x = y) -> (1 val : p y)
 rewrite__impl p Refl prf = prf
 
 %rewrite Equal rewrite__impl
-
-public export %inline
-replace : forall x, y, p . (0 rule : x = y) -> p x -> p y
-replace Refl prf = prf

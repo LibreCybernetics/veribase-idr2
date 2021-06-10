@@ -62,7 +62,6 @@ unsafeCreateWorld f = f %MkWorld
 unsafeDestroyWorld : %World -> a -> a
 unsafeDestroyWorld %MkWorld x = x
 
-
 public export
 data IO : Type -> Type where
   MkIO : PrimIO a -> IO a

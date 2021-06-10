@@ -41,25 +41,21 @@ Monad IO where
   proofRightIdentity = believe_me ()
   proofAssociativity = believe_me ()
 
-%foreign "C:getchar,libc 6"
-%extern
+%foreign "scheme,chez:get-char (current-input-port)"
 prim__getChar : PrimIO Char
 
-%foreign "C:idris2_getStr, libidris2_support, idris_support.h"
-%extern
-prim__getStr : PrimIO String
+%foreign "scheme,chez:get-line (current-input-port)"
+prim__getLine : PrimIO String
 
-%foreign "C:putchar,libc 6"
-%extern
+%foreign "scheme,chez:put-char (current-output-port)"
 prim__putChar : Char -> PrimIO ()
 
-%foreign "C:idris2_putStr, libidris2_support, idris_support.h"
-%extern
-prim__putStr : String -> PrimIO ()
+%foreign "scheme,chez:put-string (current-output-port)"
+prim__putString : String -> PrimIO ()
 
 public export
 Console IO where
   getChar = MkIO prim__getChar
-  getLine = MkIO prim__getStr
+  getLine = MkIO prim__getLine
   putChar   c = MkIO $ prim__putChar c
-  putString s = MkIO $ prim__putStr s
+  putString s = MkIO $ prim__putString s
