@@ -213,7 +213,6 @@ proofMultCommutative (Succesor x) (Succesor y) =
   Refl
 
 export
-partial
 proofMultLeftReduction : (x, y : Natural) -> mult (Succesor x) y = plus y (mult x y)
 proofMultLeftReduction x y =
   rewrite proofMultCommutative (Succesor x) y in
@@ -221,7 +220,6 @@ proofMultLeftReduction x y =
   Refl
 
 export
-partial
 proofMultLeftDistributesPlus : (x, y, z : Natural) -> mult x (plus y z) = plus (mult x y) (mult x z)
 proofMultLeftDistributesPlus Zero y z =
   rewrite proofMultLeftAnnihilation y in
