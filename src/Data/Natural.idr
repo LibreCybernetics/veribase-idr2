@@ -132,6 +132,14 @@ proofPlusLeftIdentity : (x : Natural) -> plus Zero x = x
 proofPlusLeftIdentity Zero = Refl
 proofPlusLeftIdentity (Succesor x) = rewrite proofPlusLeftIdentity x in Refl
 
+export
+proofPlusLeftReduction : (x, y : Natural) -> plus (Succesor x) y = Succesor (plus x y)
+proofPlusLeftReduction x Zero = Refl
+proofPlusLeftReduction Zero (Succesor y) =
+  rewrite proofPlusLeftReduction Zero y in Refl
+proofPlusLeftReduction (Succesor x) (Succesor y) =
+  rewrite proofPlusLeftReduction (Succesor x) y in Refl
+
 public export
 [NaturalSumMagma] Magma Natural where
   (<>) = plus
@@ -148,3 +156,41 @@ public export
 
   proofLeftIdentity = proofPlusLeftIdentity
   proofRightIdentity x = Refl
+
+public export
+minus : (x, y : Natural) -> {auto ok : x `GTE` y} -> Natural
+minus x Zero = x
+minus (Succesor x) (Succesor y) {ok=(SuccesorLTE p)} = minus x y
+
+public export
+mult : (x, y : Natural) -> Natural
+mult _ Zero = Zero
+mult x (Succesor y) = x `plus` mult x y
+
+export
+proofMultLeftIdentity : (x : Natural) -> mult (Succesor Zero) x = x
+proofMultLeftIdentity Zero = Refl
+proofMultLeftIdentity (Succesor x) =
+  rewrite proofMultLeftIdentity x in
+  rewrite proofPlusLeftReduction Zero x in
+  rewrite proofPlusLeftIdentity x in Refl
+
+export
+proofMultLeftAnnihilation : (x : Natural) -> mult Zero x = Zero
+proofMultLeftAnnihilation Zero = Refl
+proofMultLeftAnnihilation (Succesor x) = rewrite proofMultLeftAnnihilation x in Refl
+
+export
+proofMultRightAnnihilation : (x : Natural) -> mult x Zero = Zero
+proofMultRightAnnihilation Zero = Refl
+proofMultRightAnnihilation (Succesor x) = rewrite proofMultRightAnnihilation x in Refl
+
+public export
+[NaturalMultMagma] Magma Natural where
+  (<>) = mult
+
+partial
+[NaturalMultSemigroup] Semigroup Natural using NaturalMultMagma where
+  proofAssociativity x y Zero = Refl
+  proofAssociativity x y (Succesor z) =
+    ?holeDist
