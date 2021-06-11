@@ -6,6 +6,10 @@ import Algebra.Relation.Equivalence
 import Algebra.Relation.Preorder
 import Algebra.Relation.Order
 
+import Algebra.Group.Magma
+import Algebra.Group.Semigroup
+import Algebra.Group.Monoid
+
 %default total
 
 public export
@@ -113,3 +117,34 @@ Order Natural where
     case proofLTEThenLTOrEquiv x y p of
       Left l => Left $ SuccesorLTE l
       Right e => Right $ SuccesorEquiv e
+
+--
+-- Operations
+--
+
+public export
+plus : (x, y : Natural) -> Natural
+plus x Zero = x
+plus x (Succesor y) = Succesor $ plus x y
+
+public export
+proofPlusLeftIdentity : (x : Natural) -> plus Zero x = x
+proofPlusLeftIdentity Zero = Refl
+proofPlusLeftIdentity (Succesor x) = rewrite proofPlusLeftIdentity x in Refl
+
+public export
+[NaturalSumMagma] Magma Natural where
+  (<>) = plus
+
+public export
+[NaturalSumSemigroup] Semigroup Natural using NaturalSumMagma where
+  proofAssociativity x y Zero = Refl
+  proofAssociativity x y (Succesor z) =
+    rewrite proofAssociativity x y z in Refl
+
+public export
+[NaturalSumMonoid] Monoid Natural using NaturalSumSemigroup where
+  id = Zero
+
+  proofLeftIdentity = proofPlusLeftIdentity
+  proofRightIdentity x = Refl
