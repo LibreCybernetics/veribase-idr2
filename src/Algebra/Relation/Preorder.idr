@@ -11,3 +11,7 @@ interface Preorder t where
 
   proofReflexivity : (x : t) -> x `LTE` x
   proofTransitivity : (x, y, z : t) -> x `LTE` y -> y `LTE` z -> x `LTE` z
+
+public export
+GTE : Preorder t => t -> t -> Type
+GTE = flip LTE
