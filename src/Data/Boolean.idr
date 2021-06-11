@@ -116,26 +116,30 @@ proofNotInvolution False = Refl
 proofNotInvolution True  = Refl
 
 public export
-[BooleanDisjMagma] Magma Boolean where
-  False <> False = False
-  _     <> _     = True
+disj : Boolean -> Boolean -> Boolean
+disj False False = False
+disj _     _     = True
 
 public export
-disj : Boolean -> Boolean -> Boolean
-disj = (<>) @{BooleanDisjMagma}
+[BooleanDisjMagma] Magma Boolean where
+  (<>) = disj
 
+export
 proofDisjLeftIdentity : (a : Boolean) -> False `disj` a = a
 proofDisjLeftIdentity False = Refl
 proofDisjLeftIdentity True  = Refl
 
+export
 proofDisjRightIdentity : (a : Boolean) -> a `disj` False = a
 proofDisjRightIdentity False = Refl
 proofDisjRightIdentity True  = Refl
 
+export
 proofDisjLeftAnnihilation : (a : Boolean) -> True `disj` a = True
 proofDisjLeftAnnihilation False = Refl
 proofDisjLeftAnnihilation True  = Refl
 
+export
 proofDisjRightAnnihilation : (a : Boolean) -> a `disj` True = True
 proofDisjRightAnnihilation False = Refl
 proofDisjRightAnnihilation True  = Refl
@@ -151,9 +155,11 @@ public export
 public export
 [BooleanDisjMonoid] Monoid Boolean using BooleanDisjSemigroup where
   id = False
+
   proofLeftIdentity = proofDisjLeftIdentity
   proofRightIdentity = proofDisjRightIdentity
 
+export
 proofDisjCommutative : (a, b : Boolean) -> a `disj` b = b `disj` a
 proofDisjCommutative False b =
   rewrite proofDisjLeftIdentity b in
@@ -162,26 +168,30 @@ proofDisjCommutative False b =
 proofDisjCommutative True b = rewrite proofDisjRightAnnihilation b in Refl
 
 public export
-[BooleanConjMagma] Magma Boolean where
-  True <> True = True
-  _    <> _    = False
+conj : Boolean -> Boolean -> Boolean
+conj True True = True
+conj _    _    = False
 
 public export
-conj : Boolean -> Boolean -> Boolean
-conj = (<>) @{BooleanConjMagma}
+[BooleanConjMagma] Magma Boolean where
+  (<>) = conj
 
+export
 proofConjLeftIdentity : (a : Boolean) -> True `conj` a = a
 proofConjLeftIdentity False = Refl
 proofConjLeftIdentity True  = Refl
 
+export
 proofConjRightIdentity : (a : Boolean) -> a `conj` True = a
 proofConjRightIdentity False = Refl
 proofConjRightIdentity True  = Refl
 
+export
 proofConjLeftAnnihilation : (a : Boolean) -> False `conj` a = False
 proofConjLeftAnnihilation False = Refl
 proofConjLeftAnnihilation True  = Refl
 
+export
 proofConjRightAnnihilation : (a : Boolean) -> a `conj` False = False
 proofConjRightAnnihilation False = Refl
 proofConjRightAnnihilation True  = Refl
@@ -197,9 +207,11 @@ public export
 public export
 [BooleanConjMonoid] Monoid Boolean using BooleanConjSemigroup where
   id = True
+
   proofLeftIdentity  = proofConjLeftIdentity
   proofRightIdentity = proofConjRightIdentity
 
+export
 proofConjCommutative : (a, b : Boolean) -> a `conj` b = b `conj` a
 proofConjCommutative False b = rewrite proofConjRightAnnihilation b in Refl
 proofConjCommutative True b =
@@ -217,6 +229,7 @@ MeetSemilattice Boolean where
 
   proofIdempotence False = Refl
   proofIdempotence True  = Refl
+
   proofAssociative = proofAssociativity @{BooleanConjSemigroup}
   proofCommutative = proofConjCommutative
 
@@ -237,6 +250,7 @@ JoinSemilattice Boolean where
 
   proofIdempotence False = Refl
   proofIdempotence True  = Refl
+
   proofAssociative = proofAssociativity @{BooleanDisjSemigroup}
   proofCommutative = proofDisjCommutative
 

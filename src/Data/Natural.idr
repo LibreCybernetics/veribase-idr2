@@ -127,7 +127,7 @@ plus : (x, y : Natural) -> Natural
 plus x Zero = x
 plus x (Succesor y) = Succesor $ plus x y
 
-public export
+export
 proofPlusLeftIdentity : (x : Natural) -> plus Zero x = x
 proofPlusLeftIdentity Zero = Refl
 proofPlusLeftIdentity (Succesor x) = rewrite proofPlusLeftIdentity x in Refl
