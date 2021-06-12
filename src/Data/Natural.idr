@@ -10,6 +10,8 @@ import Algebra.Group.Magma
 import Algebra.Group.Semigroup
 import Algebra.Group.Monoid
 
+import Data.PrimInteger
+
 %default total
 
 public export
@@ -21,6 +23,7 @@ data Natural = Zero | Succesor Natural
 -- Restrictions
 --
 
+public export
 data NotZero : Natural -> Type where
   IsNotZero : NotZero (Succesor _)
 
@@ -46,12 +49,13 @@ Uninhabited (NaturalEquiv (Succesor y) Zero) where
   uninhabited BothZero impossible
   uninhabited (SuccesorEquiv _) impossible
 
-public export
+export
 proofNotEquivThenNotSuccesorEquiv : {x, y : Natural}
                                   -> Not (NaturalEquiv x y)
                                   -> Not (NaturalEquiv (Succesor x) (Succesor y))
 proofNotEquivThenNotSuccesorEquiv h (SuccesorEquiv ctra) = h ctra
 
+public export
 Equivalence Natural where
   Equiv = NaturalEquiv
 
@@ -128,6 +132,19 @@ Order Natural where
     case proofLTEThenLTOrEquiv x y p of
       Left  l => Left  $ SuccesorLTE   l
       Right e => Right $ SuccesorEquiv e
+
+--
+-- FromInteger
+--
+
+public export
+fromInteger : (x : Integer) -> {auto ok : x `GTE` 0} -> Natural
+fromInteger 0 = Zero
+fromInteger x = case (decGTE (prim__sub_Integer x 1) 0) of
+  Yes p => Succesor $ assert_total $ fromInteger $ prim__sub_Integer x 1
+  No cp => void $ believe_me ()
+
+%integerLit fromInteger
 
 --
 -- Operations

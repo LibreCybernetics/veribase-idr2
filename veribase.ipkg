@@ -30,3 +30,4 @@ modules = Builtin, PrimIO, Verilude
 	, Data.LinkedList
 	, Data.Natural
 	, Data.Optional
+	, Data.PrimInteger

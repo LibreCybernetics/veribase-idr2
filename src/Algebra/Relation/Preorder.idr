@@ -15,3 +15,7 @@ interface Preorder t where
 public export
 GTE : Preorder t => t -> t -> Type
 GTE = flip LTE
+
+public export
+decGTE : Preorder t => (x, y : t) -> Dec (y `LTE` x)
+decGTE x y = decLTE y x

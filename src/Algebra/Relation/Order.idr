@@ -22,3 +22,7 @@ interface (Equivalence t, Preorder t) => Order t where
 public export
 GT : Order t => t -> t -> Type
 GT = flip LT
+
+public export
+decGT : Order t => (x, y : t) -> Dec (y `LT` x)
+decGT x y = decLT y x
