@@ -18,6 +18,17 @@ data Natural = Zero | Succesor Natural
 %builtin Natural Natural
 
 --
+-- Restrictions
+--
+
+data NotZero : Natural -> Type where
+  IsNotZero : NotZero (Succesor _)
+
+public export
+Uninhabited (NotZero Zero) where
+  uninhabited IsNotZero impossible
+
+--
 -- Equivalence
 --
 
@@ -258,3 +269,24 @@ public export
     rewrite proofMultLeftDistributesPlus x y (mult y z) in
     rewrite proofAssociativity x y z in
     Refl
+
+public export
+[NaturalMultMonoid] Monoid Natural using NaturalMultSemigroup where
+  id = Succesor Zero
+
+  proofLeftIdentity = proofMultLeftIdentity
+  proofRightIdentity _ = Refl
+
+public export
+divRem : (x, y : Natural) -> {auto ok : NotZero y} -> (Natural, Natural)
+divRem x y = case decLTE y x of
+  Yes _ => let (d, r) := divRem (x `minus` y) y in (Succesor d, r)
+  No  _ => (Zero, x)
+
+public export
+div : (x, y : Natural) -> {auto ok : NotZero y} -> Natural
+div x y = fst $ divRem x y
+
+public export
+rem : (x, y : Natural) -> {auto ok : NotZero y} -> Natural
+rem x y = snd $ divRem x y
