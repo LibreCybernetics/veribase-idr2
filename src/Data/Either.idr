@@ -13,10 +13,10 @@ data Either a b = Left a | Right b
 
 public export
 Functor (Either t) where
-  map f (Left x)  = Left x
-  map f (Right x) = Right $ f x
+  f <$> (Left  x) = Left x
+  f <$> (Right x) = Right $ f x
 
-  proofIdentity (Left _)  = Refl
+  proofIdentity (Left  _) = Refl
   proofIdentity (Right _) = Refl
 
   proofComposition f g (Left _) = Refl
@@ -26,8 +26,8 @@ public export
 Applicative (Either t) where
   pure = Right
 
-  (Left x)  <*> _         = Left x
-  (Right _) <*> (Left y)  = Left y
+  (Left  x) <*> _         = Left x
+  (Right _) <*> (Left  y) = Left y
   (Right f) <*> (Right x) = Right $ f x
 
   proofIdentity (Left  _) = Refl
@@ -38,16 +38,16 @@ Applicative (Either t) where
   proofInterchange (Left _)  _ = Refl
   proofInterchange (Right _) _ = Refl
 
-  proofComposition (Left _)  (Left _)  _ = Refl
-  proofComposition (Left _)  (Right _) _ = Refl
-  proofComposition (Right _) (Left _)  _ = Refl
+  proofComposition (Left  _) (Left  _) _ = Refl
+  proofComposition (Left  _) (Right _) _ = Refl
+  proofComposition (Right _) (Left  _) _ = Refl
   proofComposition (Right _) (Right _) x = case x of
-    Left x => Refl
+    Left  x => Refl
     Right x => Refl
 
 public export
 Monad (Either t) where
-  (Left x)  >>= _ = Left x
+  (Left  x) >>= _ = Left x
   (Right x) >>= f = f x
 
   proofLeftIdentity _ _ = Refl

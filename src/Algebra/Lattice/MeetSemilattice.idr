@@ -18,4 +18,5 @@ interface Order t => MeetSemilattice t where
   proofAssociative : (x, y, z : t) -> x /\ (y /\ z) = (x /\ y) /\ z
 
   proofLowerBound : (x, y : t) -> (x /\ y `LTE` x, x /\ y `LTE` y)
-  proofGreatestLowerBound : (b, x, y : t) -> b `LTE` x -> b `LTE` y -> b `LTE` x /\ y
+  proofGreatestLowerBound : (b, x, y : t) -> b `LTE` x -> b `LTE` y
+                          -> b `LTE` x /\ y

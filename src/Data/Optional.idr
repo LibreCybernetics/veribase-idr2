@@ -45,8 +45,8 @@ Equivalence t => Equivalence (Optional t) where
 
 public export
 Functor Optional where
-  map f Nothing  = Nothing
-  map f (Some a) = Some . f $ a
+  f <$>  Nothing = Nothing
+  f <$> (Some a) = Some $ f a
 
   proofIdentity Nothing  = Refl
   proofIdentity (Some a) = Refl

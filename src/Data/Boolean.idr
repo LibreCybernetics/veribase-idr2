@@ -46,14 +46,14 @@ public export
 Equivalence Boolean where
   Equiv = BooleanEquiv
 
-  decEquiv False False = Yes $ BothFalse
-  decEquiv True  True  = Yes $ BothTrue
-  decEquiv False True  = No  $ absurd
-  decEquiv True  False = No  $ absurd
+  decEquiv False False = Yes BothFalse
+  decEquiv True  True  = Yes BothTrue
+  decEquiv False True  = No  absurd
+  decEquiv True  False = No  absurd
 
 data BooleanLTE : (a, b : Boolean) -> Type where
   FalseLTEAny : BooleanLTE False b
-  TrueLTETrue : BooleanLTE True True
+  TrueLTETrue : BooleanLTE True  True
 
 public export
 Uninhabited (BooleanLTE True False) where
@@ -65,7 +65,7 @@ Preorder Boolean where
   LTE = BooleanLTE
 
   decLTE False _     = Yes FalseLTEAny
-  decLTE True  False = No absurd
+  decLTE True  False = No  absurd
   decLTE True  True  = Yes TrueLTETrue
 
   proofReflexivity False = FalseLTEAny
@@ -90,9 +90,9 @@ public export
 Order Boolean where
   LT = BooleanLT
 
-  decLT False False = No absurd
+  decLT False False = No  absurd
   decLT False True  = Yes FalseLTTrue
-  decLT True  _     = No absurd
+  decLT True  _     = No  absurd
 
   proofAntisymetry False False FalseLTEAny FalseLTEAny = BothFalse
   proofAntisymetry True  True  TrueLTETrue TrueLTETrue = BothTrue
@@ -156,7 +156,7 @@ public export
 [BooleanDisjMonoid] Monoid Boolean using BooleanDisjSemigroup where
   id = False
 
-  proofLeftIdentity = proofDisjLeftIdentity
+  proofLeftIdentity  = proofDisjLeftIdentity
   proofRightIdentity = proofDisjRightIdentity
 
 export
@@ -199,7 +199,7 @@ proofConjRightAnnihilation True  = Refl
 public export
 [BooleanConjSemigroup] Semigroup Boolean using BooleanConjMagma where
   proofAssociativity False b c = Refl
-  proofAssociativity True b c =
+  proofAssociativity True  b c =
     rewrite proofConjLeftIdentity b in
     rewrite proofConjLeftIdentity (b `conj` c) in
     Refl
@@ -238,10 +238,7 @@ MeetSemilattice Boolean where
   proofLowerBound True  False = (FalseLTEAny, FalseLTEAny)
   proofLowerBound True  True  = (TrueLTETrue, TrueLTETrue)
 
-  proofGreatestLowerBound False False False FalseLTEAny FalseLTEAny = FalseLTEAny
-  proofGreatestLowerBound False False True  FalseLTEAny FalseLTEAny = FalseLTEAny
-  proofGreatestLowerBound False True  False FalseLTEAny FalseLTEAny = FalseLTEAny
-  proofGreatestLowerBound False True  True  FalseLTEAny FalseLTEAny = FalseLTEAny
+  proofGreatestLowerBound False y     z     FalseLTEAny FalseLTEAny = FalseLTEAny
   proofGreatestLowerBound True  True  True  TrueLTETrue TrueLTETrue = TrueLTETrue
 
 public export

@@ -13,7 +13,7 @@ import Control.Console
 
 public export
 Functor IO where
-  map f (MkIO p) = MkIO (p `prim__io_bind` (prim__io_pure . f))
+  f <$> (MkIO p) = MkIO (p `prim__io_bind` (prim__io_pure . f))
 
   proofIdentity    = believe_me ()
   proofComposition = believe_me ()

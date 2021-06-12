@@ -4,13 +4,13 @@ import Builtin
 
 import Algebra.Relation.Equivalence
 
-import Algebra.Control.Applicative
 import Algebra.Control.Functor
+import Algebra.Control.Applicative
 import Algebra.Control.Monad
 
 import Algebra.Group.Magma
-import Algebra.Group.Monoid
 import Algebra.Group.Semigroup
+import Algebra.Group.Monoid
 
 %default total
 
@@ -38,20 +38,18 @@ public export
 public export
 fromNotEquivHead : (e : Equivalence t) => {a, b : t} -> (ok: Not (Equiv a b))
                  -> Not (LinkedListEquiv @{e} (a :: x) (b :: y))
-fromNotEquivHead ctr BothEmpty impossible
 fromNotEquivHead ctr (EquivHeadAndTail prf _) = ctr prf
 
 public export
 fromNotEquivTail : (e : Equivalence t) => (ok: Not (LinkedListEquiv @{e} x y))
                  -> Not (LinkedListEquiv @{e} (a :: x) (b :: y))
-fromNotEquivTail ctr BothEmpty impossible
 fromNotEquivTail ctr (EquivHeadAndTail _ prf) = ctr prf
 
 decLinkedListEquiv : (e : Equivalence t) => (a, b : LinkedList t) -> Dec (LinkedListEquiv @{e} a b)
-decLinkedListEquiv Nil Nil = Yes $ BothEmpty
-decLinkedListEquiv Nil (_ :: _) = No $ absurd
-decLinkedListEquiv (_ :: _) Nil = No $ absurd
-decLinkedListEquiv @{e} (h1 :: t1) (h2 :: t2) = assert_total $
+decLinkedListEquiv Nil Nil = Yes BothEmpty
+decLinkedListEquiv Nil (_::_) = No absurd
+decLinkedListEquiv (_::_) Nil = No absurd
+decLinkedListEquiv @{e} (h1::t1) (h2::t2) =
   case (decEquiv @{e} h1 h2, decLinkedListEquiv t1 t2) of
     (Yes prf1, Yes prf2) => Yes $ EquivHeadAndTail prf1 prf2
     (Yes prf1, No ctra2) => No $ fromNotEquivTail @{e} ctra2
@@ -93,20 +91,20 @@ Monoid (LinkedList t) where
 
 public export
 Functor LinkedList where
-  map _ Nil = Nil
-  map f (h::t) = f h :: map f t
+  _ <$> Nil = Nil
+  f <$> (h::t) = f h :: f <$> t
 
   proofIdentity Nil = Refl
-  proofIdentity (h::t) with (proofIdentity t)
-    proofIdentity (h::t) | prf = rewrite prf in Refl
+  proofIdentity (_::t) with (proofIdentity t)
+    proofIdentity (_::_) | prf = rewrite prf in Refl
 
-  proofComposition f g Nil = Refl
-  proofComposition f g (h::t) = rewrite proofComposition f g t in Refl
+  proofComposition f g Nil    = Refl
+  proofComposition f g (_::t) = rewrite proofComposition f g t in Refl
 
 public export
 app : LinkedList (a -> b) -> LinkedList a -> LinkedList b
 app Nil     _ = Nil
-app (f::fs) l = map f l <> app fs l
+app (f::fs) l = (f <$> l) <> app fs l
 
 public export
 appNil : (f : LinkedList (a -> b)) -> f `app` Nil = Nil
@@ -122,7 +120,7 @@ Applicative LinkedList where
   proofIdentity Nil = Refl
   proofIdentity (_::xs) with (Functor.proofIdentity xs)
     proofIdentity (_::xs) | prf =
-      rewrite concatNil (map identity xs) in
+      rewrite concatNil (identity <$> xs) in
       rewrite prf in Refl
 
   proofHomomorphism f x = Refl
@@ -133,9 +131,10 @@ Applicative LinkedList where
   proofComposition Nil Nil _ = Refl
   proofComposition Nil (_::gs) _ =
     rewrite appNil gs in
-    -- rewrite concatNil (map (.) gs) in
+    -- rewrite concatNil ((.) <$> gs) in
     ?holeComposition1
   proofComposition (f::fs) gs _ =
+    -- rewrite concatNil ((.) <$> gs) in
     ?holeComposition2
 
 public export

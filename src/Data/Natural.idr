@@ -50,15 +50,15 @@ Equivalence Natural where
   decEquiv (Succesor x) (Succesor y) =
     case decEquiv x y of
       Yes p => Yes $ SuccesorEquiv p
-      No cp => No $ proofNotEquivThenNotSuccesorEquiv cp
+      No cp => No  $ proofNotEquivThenNotSuccesorEquiv cp
 
 --
 -- Order
 --
 
 data NaturalLTE : (x, y : Natural) -> Type where
-  ZeroLTEAny : NaturalLTE Zero y
-  SuccesorLTE : NaturalLTE x y -> NaturalLTE (Succesor x) (Succesor y)
+  ZeroLTEAny  : NaturalLTE Zero y
+  SuccesorLTE : NaturalLTE x    y -> NaturalLTE (Succesor x) (Succesor y)
 
 public export
 Uninhabited (NaturalLTE (Succesor y) Zero) where
@@ -67,7 +67,7 @@ Uninhabited (NaturalLTE (Succesor y) Zero) where
 
 public export
 proofLTEThenLTESuccesor : NaturalLTE x y -> NaturalLTE x (Succesor y)
-proofLTEThenLTESuccesor {x=Zero} ZeroLTEAny = ZeroLTEAny
+proofLTEThenLTESuccesor ZeroLTEAny      = ZeroLTEAny
 proofLTEThenLTESuccesor (SuccesorLTE p) = SuccesorLTE $ proofLTEThenLTESuccesor p
 
 public export
@@ -83,7 +83,7 @@ Preorder Natural where
   decLTE (Succesor x) (Succesor y) =
     case decLTE x y of
       Yes p => Yes $ SuccesorLTE p
-      No cp => No $ proofNotLTEThenNotSuccesorLTE cp
+      No cp => No  $ proofNotLTEThenNotSuccesorLTE cp
 
   proofReflexivity Zero = ZeroLTEAny
   proofReflexivity (Succesor x) = SuccesorLTE $ proofReflexivity x
@@ -103,7 +103,7 @@ Order Natural where
   decLT (Succesor x) (Succesor y) =
      case decLT x y of
        Yes p => Yes $ SuccesorLTE p
-       No cp => No $ proofNotLTEThenNotSuccesorLTE cp
+       No cp => No  $ proofNotLTEThenNotSuccesorLTE cp
 
   proofAntisymetry Zero Zero ZeroLTEAny ZeroLTEAny = BothZero
   proofAntisymetry (Succesor x) (Succesor y) (SuccesorLTE p1) (SuccesorLTE p2) =
@@ -115,7 +115,7 @@ Order Natural where
   proofLTEThenLTOrEquiv Zero (Succesor y) ZeroLTEAny = Left $ SuccesorLTE ZeroLTEAny
   proofLTEThenLTOrEquiv (Succesor x) (Succesor y) (SuccesorLTE p) =
     case proofLTEThenLTOrEquiv x y p of
-      Left l => Left $ SuccesorLTE l
+      Left  l => Left  $ SuccesorLTE   l
       Right e => Right $ SuccesorEquiv e
 
 --
@@ -138,7 +138,6 @@ proofPlusLeftReduction x Zero = Refl
 proofPlusLeftReduction x (Succesor y) =
   rewrite proofPlusLeftReduction x y in Refl
 
-partial
 export
 proofPlusCommutative : (x, y : Natural) -> plus x y = plus y x
 proofPlusCommutative x Zero = rewrite proofPlusLeftIdentity x in Refl
@@ -243,7 +242,7 @@ public export
 [NaturalMultMagma] Magma Natural where
   (<>) = mult
 
-partial
+public export
 [NaturalMultSemigroup] Semigroup Natural using NaturalMultMagma where
   proofAssociativity x y Zero = Refl
   proofAssociativity x y (Succesor z) =
