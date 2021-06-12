@@ -2,9 +2,10 @@ module Data.Optional
 
 import Builtin
 
-import Algebra.Control.Applicative
 import Algebra.Relation.Equivalence
+
 import Algebra.Control.Functor
+import Algebra.Control.Applicative
 import Algebra.Control.Monad
 
 %default total
@@ -18,41 +19,43 @@ data OptionalEquiv : Equivalence t => (a, b : Optional t) -> Type where
            -> OptionalEquiv @{e} (Some a) (Some b)
 
 public export
-(e : Equivalence t) => Uninhabited (OptionalEquiv @{e} Nothing (Some b)) where
+(e : Equivalence t) =>
+Uninhabited (OptionalEquiv @{e} Nothing (Some b)) where
   uninhabited BothNothing  impossible
   uninhabited (BothSame _) impossible
 
 public export
-(e : Equivalence t) => Uninhabited (OptionalEquiv @{e} (Some a) Nothing) where
+(e : Equivalence t) =>
+Uninhabited (OptionalEquiv @{e} (Some a) Nothing) where
   uninhabited BothNothing  impossible
   uninhabited (BothSame _) impossible
 
 public export
-fromNotEquiv : Equivalence t => {a, b : t} -> (ok : Not (Equiv a b)) -> Not (OptionalEquiv (Some a) (Some b))
-fromNotEquiv ok BothNothing impossible
+fromNotEquiv : Equivalence t => {a, b : t} -> Not (Equiv a b)
+             -> Not (OptionalEquiv (Some a) (Some b))
 fromNotEquiv ok (BothSame ctr) = ok ctr
 
 public export
 Equivalence t => Equivalence (Optional t) where
   Equiv = OptionalEquiv
 
-  decEquiv Nothing  Nothing  = Yes $ BothNothing
-  decEquiv Nothing  (Some _) = No $ absurd
-  decEquiv (Some _) Nothing  = No $ absurd
+  decEquiv Nothing  Nothing  = Yes BothNothing
+  decEquiv Nothing  (Some _) = No  absurd
+  decEquiv (Some _) Nothing  = No  absurd
   decEquiv (Some a) (Some b) = case (decEquiv a b) of
     (Yes prf) => Yes $ BothSame prf
-    (No ctra) => No $ fromNotEquiv ctra
+    (No ctra) => No  $ fromNotEquiv ctra
 
 public export
 Functor Optional where
-  f <$>  Nothing = Nothing
+  _ <$>  Nothing = Nothing
   f <$> (Some a) = Some $ f a
 
   proofIdentity Nothing  = Refl
-  proofIdentity (Some a) = Refl
+  proofIdentity (Some _) = Refl
 
-  proofComposition f g Nothing  = Refl
-  proofComposition f g (Some a) = Refl
+  proofComposition _ _ Nothing  = Refl
+  proofComposition _ _ (Some _) = Refl
 
 public export
 Applicative Optional where
@@ -63,28 +66,29 @@ Applicative Optional where
   (Some f) <*> (Some x) = Some $ f x
 
   proofIdentity Nothing  = Refl
-  proofIdentity (Some x) = Refl
+  proofIdentity (Some _) = Refl
 
   proofComposition Nothing  Nothing  _ = Refl
-  proofComposition Nothing  (Some g) _ = Refl
-  proofComposition (Some f) Nothing  _ = Refl
-  proofComposition (Some f) (Some g) Nothing  = Refl
-  proofComposition (Some f) (Some g) (Some x) = Refl
+  proofComposition Nothing  (Some _) _ = Refl
+  proofComposition (Some _) Nothing  _ = Refl
+  proofComposition (Some _) (Some _) z = case z of
+    Nothing  => Refl
+    (Some _) => Refl
 
-  proofHomomorphism f x = Refl
+  proofHomomorphism _ _ = Refl
 
-  proofInterchange Nothing  x = Refl
-  proofInterchange (Some f) x = Refl
+  proofInterchange Nothing  _ = Refl
+  proofInterchange (Some _) _ = Refl
 
 public export
 Monad Optional where
-  Nothing >>= _ = Nothing
+  Nothing >>=  _ = Nothing
   (Some x) >>= f = f x
 
-  proofLeftIdentity x f = Refl
+  proofLeftIdentity _ _ = Refl
 
   proofRightIdentity Nothing  = Refl
-  proofRightIdentity (Some x) = Refl
+  proofRightIdentity (Some _) = Refl
 
-  proofAssociativity Nothing  f g = Refl
-  proofAssociativity (Some x) f g = Refl
+  proofAssociativity Nothing  _ _ = Refl
+  proofAssociativity (Some _) _ _ = Refl
