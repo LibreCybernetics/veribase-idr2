@@ -24,6 +24,7 @@ modules = Builtin, PrimIO, Verilude
 
 	, Control.Console
 	, Control.IO
+	, Control.Show
 
 	, Data.Boolean
 	, Data.Either
