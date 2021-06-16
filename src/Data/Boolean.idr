@@ -120,10 +120,6 @@ disj : Boolean -> Boolean -> Boolean
 disj False False = False
 disj _     _     = True
 
-public export
-[BooleanDisjMagma] Magma Boolean where
-  (<>) = disj
-
 export
 proofDisjLeftIdentity : (a : Boolean) -> False `disj` a = a
 proofDisjLeftIdentity False = Refl
@@ -144,21 +140,6 @@ proofDisjRightAnnihilation : (a : Boolean) -> a `disj` True = True
 proofDisjRightAnnihilation False = Refl
 proofDisjRightAnnihilation True  = Refl
 
-public export
-[BooleanDisjSemigroup] Semigroup Boolean using BooleanDisjMagma where
-  proofAssociativity False b c =
-    rewrite proofDisjLeftIdentity b in
-    rewrite proofDisjLeftIdentity (b `disj` c) in
-    Refl
-  proofAssociativity True b c = Refl
-
-public export
-[BooleanDisjMonoid] Monoid Boolean using BooleanDisjSemigroup where
-  id = False
-
-  proofLeftIdentity  = proofDisjLeftIdentity
-  proofRightIdentity = proofDisjRightIdentity
-
 export
 proofDisjCommutative : (a, b : Boolean) -> a `disj` b = b `disj` a
 proofDisjCommutative False b =
@@ -168,13 +149,39 @@ proofDisjCommutative False b =
 proofDisjCommutative True b = rewrite proofDisjRightAnnihilation b in Refl
 
 public export
+[BooleanDisjMagma] Magma Boolean where
+  (<>) = disj
+
+public export
+[BooleanDisjCommutativeMagma] CommutativeMagma Boolean using BooleanDisjMagma where
+  proofCommutativity = proofDisjCommutative
+
+
+public export
+[BooleanDisjSemigroup] Semigroup Boolean using BooleanDisjMagma where
+  proofAssociativity False b c =
+    rewrite proofDisjLeftIdentity b in
+    rewrite proofDisjLeftIdentity (b `disj` c) in
+    Refl
+  proofAssociativity True b c = Refl
+
+public export
+[BooleanDisjCommutativeSemigroup] CommutativeSemigroup Boolean using BooleanDisjCommutativeMagma BooleanDisjSemigroup where
+
+public export
+[BooleanDisjMonoid] Monoid Boolean using BooleanDisjSemigroup where
+  id = False
+
+  proofLeftIdentity  = proofDisjLeftIdentity
+  proofRightIdentity = proofDisjRightIdentity
+
+public export
+[BooleanDisjCommutativeMonoid] CommutativeMonoid Boolean using BooleanDisjCommutativeSemigroup BooleanDisjMonoid where
+
+public export
 conj : Boolean -> Boolean -> Boolean
 conj True True = True
 conj _    _    = False
-
-public export
-[BooleanConjMagma] Magma Boolean where
-  (<>) = conj
 
 export
 proofConjLeftIdentity : (a : Boolean) -> True `conj` a = a
@@ -196,6 +203,22 @@ proofConjRightAnnihilation : (a : Boolean) -> a `conj` False = False
 proofConjRightAnnihilation False = Refl
 proofConjRightAnnihilation True  = Refl
 
+export
+proofConjCommutative : (a, b : Boolean) -> a `conj` b = b `conj` a
+proofConjCommutative False b = rewrite proofConjRightAnnihilation b in Refl
+proofConjCommutative True b =
+  rewrite proofConjLeftIdentity b in
+  rewrite proofConjRightIdentity b in
+  Refl
+
+public export
+[BooleanConjMagma] Magma Boolean where
+  (<>) = conj
+
+public export
+[BooleanConjCommutativeMagma] CommutativeMagma Boolean using BooleanConjMagma where
+  proofCommutativity = proofConjCommutative
+
 public export
 [BooleanConjSemigroup] Semigroup Boolean using BooleanConjMagma where
   proofAssociativity False b c = Refl
@@ -210,14 +233,6 @@ public export
 
   proofLeftIdentity  = proofConjLeftIdentity
   proofRightIdentity = proofConjRightIdentity
-
-export
-proofConjCommutative : (a, b : Boolean) -> a `conj` b = b `conj` a
-proofConjCommutative False b = rewrite proofConjRightAnnihilation b in Refl
-proofConjCommutative True b =
-  rewrite proofConjLeftIdentity b in
-  rewrite proofConjRightIdentity b in
-  Refl
 
 --
 -- Lattice
