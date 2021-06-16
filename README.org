@@ -5,7 +5,7 @@ I am doing but hope this will be useful to others as a reference, hence no
 license at the moment.
 
 I will be using Agda, Haskell, Idris2, Scala3, and other languages as a
-reference along many of the libraries for said libaries.
+reference along many of the libraries for said languages.
 
 Upstream is at nest.pijul.com/fabian/veribase-idr2 and git / github are
 considered mirrors. Regardless to say, this is going to be very unstable for the
