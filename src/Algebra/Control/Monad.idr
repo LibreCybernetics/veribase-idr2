@@ -14,7 +14,7 @@ interface Applicative t => Monad t where
 
   proofLeftIdentity : (x : a) -> (f : a -> t b) -> Applicative.pure x >>= f = f x
   proofRightIdentity : (x : t a) -> x >>= Applicative.pure = x
-  proofAssociativity : (x : t a) -> (f : a -> t b) -> (g : b -> t c)
+  proofAssociative : (x : t a) -> (f : a -> t b) -> (g : b -> t c)
                      -> (x >>= f) >>= g = x >>= (\x => f x >>= g)
 
 public export

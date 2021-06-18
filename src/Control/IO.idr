@@ -39,7 +39,7 @@ Monad IO where
 
   proofLeftIdentity  = believe_me ()
   proofRightIdentity = believe_me ()
-  proofAssociativity = believe_me ()
+  proofAssociative = believe_me ()
 
 %foreign "scheme,chez:get-char (current-input-port)"
 prim__getChar : PrimIO Char

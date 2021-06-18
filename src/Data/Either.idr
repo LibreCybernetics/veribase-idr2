@@ -55,5 +55,5 @@ Monad (Either t) where
   proofRightIdentity (Left  _) = Refl
   proofRightIdentity (Right _) = Refl
 
-  proofAssociativity (Left  _) f g = Refl
-  proofAssociativity (Right _) f g = Refl
+  proofAssociative (Left  _) f g = Refl
+  proofAssociative (Right _) f g = Refl

@@ -2,13 +2,15 @@ module Data.Natural
 
 import Builtin
 
+import Algebra.Group.Magma
+import Algebra.Group.Semigroup
+import Algebra.Group.Monoid
+
 import Algebra.Relation.Equivalence
 import Algebra.Relation.Preorder
 import Algebra.Relation.Order
 
-import Algebra.Group.Magma
-import Algebra.Group.Semigroup
-import Algebra.Group.Monoid
+import Algebra.Ring.Semiring
 
 import public Control.Show
 
@@ -204,8 +206,15 @@ public export
   (<>) = plus
 
 public export
+[NaturalSumCommutativeMagma] CommutativeMagma Natural using NaturalSumMagma where
+  proofCommutative = proofPlusCommutative
+
+public export
 [NaturalSumSemigroup] Semigroup Natural using NaturalSumMagma where
-  proofAssociativity = proofPlusAssociative
+  proofAssociative = proofPlusAssociative
+
+public export
+[NaturalSumCommutativeSemigroup] CommutativeSemigroup Natural using NaturalSumCommutativeMagma NaturalSumSemigroup where
 
 public export
 [NaturalSumMonoid] Monoid Natural using NaturalSumSemigroup where
@@ -213,6 +222,9 @@ public export
 
   proofLeftIdentity = proofPlusLeftIdentity
   proofRightIdentity _ = Refl
+
+public export
+[NaturalSumCommutativeMonoid] CommutativeMonoid Natural using NaturalSumCommutativeSemigroup NaturalSumMonoid where
 
 public export
 minus : (x, y : Natural) -> {auto ok : x `GTE` y} -> Natural
@@ -291,6 +303,14 @@ proofMultLeftDistributesPlus (Succesor x) y z =
   rewrite proofPlusAssociative (plus y z) (mult x y) (mult x z) in
   Refl
 
+proofMultRightDistributesPlus : (x, y, z : Natural)
+                              -> mult (plus x y) z = plus (mult x z) (mult y z)
+proofMultRightDistributesPlus x y z =
+  rewrite proofMultCommutative (plus x y) z in
+  rewrite proofMultLeftDistributesPlus z x y in
+  rewrite proofMultCommutative z x in
+  rewrite proofMultCommutative z y in
+  Refl
 
 public export
 [NaturalMultMagma] Magma Natural where
@@ -298,10 +318,10 @@ public export
 
 public export
 [NaturalMultSemigroup] Semigroup Natural using NaturalMultMagma where
-  proofAssociativity x y Zero = Refl
-  proofAssociativity x y (Succesor z) =
+  proofAssociative x y Zero = Refl
+  proofAssociative x y (Succesor z) =
     rewrite proofMultLeftDistributesPlus x y (mult y z) in
-    rewrite proofAssociativity x y z in
+    rewrite proofAssociative x y z in
     Refl
 
 public export
@@ -324,3 +344,25 @@ div x y = fst $ divRem x y
 public export
 rem : (x, y : Natural) -> {auto ok : NotZero y} -> Natural
 rem x y = snd $ divRem x y
+
+public export
+Semiring Natural where
+  (+) = plus
+  (*) = mult
+
+  zero = 0
+  one  = 1
+
+  proofSumZero = proofRightIdentity @{NaturalSumMonoid}
+  proofSumCommutative = proofCommutative @{NaturalSumCommutativeMagma}
+  proofSumAssociative = proofAssociative @{NaturalSumSemigroup}
+
+  proofMultOneLeft  = proofLeftIdentity  @{NaturalMultMonoid}
+  proofMultOneRight = proofRightIdentity @{NaturalMultMonoid}
+  proofMultAssociative = proofAssociative @{NaturalMultSemigroup}
+
+  proofMultDistributesSumLeft  = proofMultLeftDistributesPlus
+  proofMultDistributesSumRight = proofMultRightDistributesPlus
+
+  zeroAnnihilatorLeft  = proofMultLeftAnnihilation
+  zeroAnnihilatorRight = proofMultRightAnnihilation

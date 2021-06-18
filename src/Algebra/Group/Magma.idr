@@ -12,4 +12,4 @@ interface Magma t where
 
 public export
 interface Magma t => CommutativeMagma t where
-  proofCommutativity : (x, y : t) -> x <> y = y <> x
+  proofCommutative : (x, y : t) -> x <> y = y <> x

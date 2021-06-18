@@ -2,16 +2,16 @@ module Data.Boolean
 
 import Builtin
 
-import Algebra.Relation.Equivalence
-import Algebra.Relation.Preorder
-import Algebra.Relation.Order
-
 import Algebra.Group.Magma
-import Algebra.Group.Monoid
 import Algebra.Group.Semigroup
+import Algebra.Group.Monoid
 
 import Algebra.Lattice.JoinSemilattice
 import Algebra.Lattice.MeetSemilattice
+
+import Algebra.Relation.Equivalence
+import Algebra.Relation.Preorder
+import Algebra.Relation.Order
 
 import Data.Either
 
@@ -154,16 +154,16 @@ public export
 
 public export
 [BooleanDisjCommutativeMagma] CommutativeMagma Boolean using BooleanDisjMagma where
-  proofCommutativity = proofDisjCommutative
+  proofCommutative = proofDisjCommutative
 
 
 public export
 [BooleanDisjSemigroup] Semigroup Boolean using BooleanDisjMagma where
-  proofAssociativity False b c =
+  proofAssociative False b c =
     rewrite proofDisjLeftIdentity b in
     rewrite proofDisjLeftIdentity (b `disj` c) in
     Refl
-  proofAssociativity True b c = Refl
+  proofAssociative True b c = Refl
 
 public export
 [BooleanDisjCommutativeSemigroup] CommutativeSemigroup Boolean using BooleanDisjCommutativeMagma BooleanDisjSemigroup where
@@ -217,12 +217,12 @@ public export
 
 public export
 [BooleanConjCommutativeMagma] CommutativeMagma Boolean using BooleanConjMagma where
-  proofCommutativity = proofConjCommutative
+  proofCommutative = proofConjCommutative
 
 public export
 [BooleanConjSemigroup] Semigroup Boolean using BooleanConjMagma where
-  proofAssociativity False b c = Refl
-  proofAssociativity True  b c =
+  proofAssociative False b c = Refl
+  proofAssociative True  b c =
     rewrite proofConjLeftIdentity b in
     rewrite proofConjLeftIdentity (b `conj` c) in
     Refl
@@ -245,7 +245,7 @@ MeetSemilattice Boolean where
   proofIdempotence False = Refl
   proofIdempotence True  = Refl
 
-  proofAssociative = proofAssociativity @{BooleanConjSemigroup}
+  proofAssociative = proofAssociative @{BooleanConjSemigroup}
   proofCommutative = proofConjCommutative
 
   proofLowerBound False False = (FalseLTEAny, FalseLTEAny)
@@ -263,7 +263,7 @@ JoinSemilattice Boolean where
   proofIdempotence False = Refl
   proofIdempotence True  = Refl
 
-  proofAssociative = proofAssociativity @{BooleanDisjSemigroup}
+  proofAssociative = proofAssociative @{BooleanDisjSemigroup}
   proofCommutative = proofDisjCommutative
 
   proofUpperBound False False = (FalseLTEAny, FalseLTEAny)

@@ -22,6 +22,8 @@ modules = Builtin, PrimIO, Verilude
 	, Algebra.Relation.Order
 	, Algebra.Relation.Preorder
 
+	, Algebra.Ring.Semiring
+
 	, Control.Console
 	, Control.IO
 	, Control.Show

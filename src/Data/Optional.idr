@@ -90,5 +90,5 @@ Monad Optional where
   proofRightIdentity Nothing  = Refl
   proofRightIdentity (Some _) = Refl
 
-  proofAssociativity Nothing  _ _ = Refl
-  proofAssociativity (Some _) _ _ = Refl
+  proofAssociative Nothing  _ _ = Refl
+  proofAssociative (Some _) _ _ = Refl

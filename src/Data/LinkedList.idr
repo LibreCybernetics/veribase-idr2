@@ -76,8 +76,8 @@ Magma (LinkedList t) where
 
 public export
 Semigroup (LinkedList t) where
-  proofAssociativity Nil     _ _ = Refl
-  proofAssociativity (x::xs) y z = rewrite proofAssociativity xs y z in Refl
+  proofAssociative Nil     _ _ = Refl
+  proofAssociative (x::xs) y z = rewrite proofAssociative xs y z in Refl
 
 public export
 Monoid (LinkedList t) where
@@ -148,7 +148,7 @@ Monad LinkedList where
   proofRightIdentity (x::xs) with (Monad.proofRightIdentity xs)
     proofRightIdentity (_::_) | prf = rewrite prf in Refl
 
-  proofAssociativity Nil f g = Refl
-  proofAssociativity (x::xs) f g with (f x)
-    proofAssociativity (x::xs) f g | Nil = rewrite proofAssociativity xs f g in Refl
-    proofAssociativity (x::xs) f g | (r::rs) = ?holeAssociativity
+  proofAssociative Nil f g = Refl
+  proofAssociative (x::xs) f g with (f x)
+    proofAssociative (x::xs) f g | Nil = rewrite proofAssociative xs f g in Refl
+    proofAssociative (x::xs) f g | (r::rs) = ?holeAssociative
