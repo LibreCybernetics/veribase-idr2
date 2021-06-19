@@ -36,6 +36,13 @@ modules = Builtin, PrimIO, Verilude
 	, Data.Boolean.Order
 
 	, Data.Either
+
+	, Data.LinkedList.Applicative
+	, Data.LinkedList.Basic
+	, Data.LinkedList.Equivalence
+	, Data.LinkedList.Functor
+	, Data.LinkedList.Group
+	, Data.LinkedList.Monad
 	, Data.LinkedList
 
 	, Data.Natural.Basic
