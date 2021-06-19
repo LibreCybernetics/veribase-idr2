@@ -34,8 +34,19 @@ modules = Builtin, PrimIO, Verilude
 	, Data.Boolean.Group
 	, Data.Boolean.Lattice
 	, Data.Boolean.Order
+
 	, Data.Either
 	, Data.LinkedList
+
+	, Data.Natural.Basic
+	, Data.Natural.Equivalence
+	, Data.Natural.ExtraOperations
+	, Data.Natural.Group
+	, Data.Natural.Order
+	, Data.Natural.Semiring
+	, Data.Natural.Show
+	, Data.Natural.SupportPrimIntegerLiteral
+
 	, Data.Natural
 	, Data.Optional
 	, Data.PrimInteger
