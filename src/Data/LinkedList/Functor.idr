@@ -6,6 +6,8 @@ import Algebra.Control.Functor
 
 import public Data.LinkedList.Basic
 
+%default total
+
 public export
 Functor LinkedList where
   _ <$> Nil = Nil

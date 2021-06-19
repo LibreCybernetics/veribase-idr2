@@ -5,6 +5,8 @@ import Builtin
 import Algebra.Group.Magma
 import Algebra.Group.Monoid
 
+%default total
+
 infixl 5 +
 infixl 6 *
 

@@ -6,6 +6,8 @@ import Algebra.Relation.Equivalence
 
 import public Data.Natural.Basic
 
+%default total
+
 public export
 data NaturalEquiv : (x, y : Natural) -> Type where
   BothZero : NaturalEquiv Zero Zero

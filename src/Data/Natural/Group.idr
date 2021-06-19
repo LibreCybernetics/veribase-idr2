@@ -8,6 +8,8 @@ import Algebra.Group.Monoid
 
 import public Data.Natural.Basic
 
+%default total
+
 public export
 [NaturalSumMagma] Magma Natural where
   (<>) = add

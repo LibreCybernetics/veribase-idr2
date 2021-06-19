@@ -8,6 +8,8 @@ import Algebra.Control.Monad
 import public Data.LinkedList.Basic
 import public Data.LinkedList.Applicative
 
+%default total
+
 public export
 Monad LinkedList where
   Nil >>= _ = Nil
