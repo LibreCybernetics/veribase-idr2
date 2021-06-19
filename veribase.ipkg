@@ -29,6 +29,11 @@ modules = Builtin, PrimIO, Verilude
 	, Control.Show
 
 	, Data.Boolean
+	, Data.Boolean.Basic
+	, Data.Boolean.Equivalence
+	, Data.Boolean.Group
+	, Data.Boolean.Lattice
+	, Data.Boolean.Order
 	, Data.Either
 	, Data.LinkedList
 	, Data.Natural
