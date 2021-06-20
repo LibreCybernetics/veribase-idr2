@@ -28,6 +28,8 @@ modules = Builtin, PrimIO, Verilude
 	, Control.IO
 	, Control.Show
 
+	, Data.AVLTree
+
 	, Data.Boolean
 	, Data.Boolean.Basic
 	, Data.Boolean.Equivalence

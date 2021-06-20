@@ -19,3 +19,15 @@ GTE = flip LTE
 public export
 decGTE : Preorder t => (x, y : t) -> Dec (y `LTE` x)
 decGTE x y = decLTE y x
+
+public export
+max : Preorder t => t -> t -> t
+max x y = case decLTE x y of
+  (Yes _) => y
+  (No  _) => x
+
+public export
+min : Preorder t => t -> t -> t
+min x y = case decLTE x y of
+  (Yes _) => y
+  (No  _) => x

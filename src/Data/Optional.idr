@@ -13,6 +13,11 @@ import Algebra.Control.Monad
 public export
 data Optional t = Nothing | Some t
 
+public export
+optional : Optional a -> (a -> b) -> b -> b
+optional Nothing  _ = identity
+optional (Some x) f = constant $ f x
+
 data OptionalEquiv : Equivalence t => (a, b : Optional t) -> Type where
   BothNothing : (e : Equivalence t) => OptionalEquiv @{e} Nothing Nothing
   BothSame : (e : Equivalence t) => {a, b : t} -> (ok : Equiv a b)

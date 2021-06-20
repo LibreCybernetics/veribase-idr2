@@ -26,3 +26,12 @@ GT = flip LT
 public export
 decGT : Order t => (x, y : t) -> Dec (y `LT` x)
 decGT x y = decLT y x
+
+public export
+compare : Order t => (x, y : t) -> Either (x `Equiv` y) (Either (x `LT` y) (x `GT` y))
+compare x y = case decEquiv x y of
+  (Yes p) => Left p
+  (No  _) => case (decLT x y, decGT x y) of
+    (Yes p, _    ) => Right $ Left p
+    (_    , Yes p) => Right $ Right p
+    (No  _, No  _) => void $ believe_me ()
